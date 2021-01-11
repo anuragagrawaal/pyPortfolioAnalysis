@@ -17,7 +17,8 @@ pip install pyPortfolioAnalysis
 ## Usage
 
 ```python
-import pyPortfolioAnalysis
+from pyPortfolioAnalysis import *
+import pandas as pd
 #Sample portfolio optimisation
 import pandas_datareader as pdr
 aapl = pdr.get_data_yahoo('AAPL')
@@ -28,6 +29,7 @@ amzn = pdr.get_data_yahoo('AMZN')
 port = pd.DataFrame({'aapl': pd.DataFrame.reset_index(aapl).iloc[:,6], 'msft':pd.DataFrame.reset_index(msft).iloc[:,6],
                    'tsla': pd.DataFrame.reset_index(tsla).iloc[:,6], 'uber': pd.DataFrame.reset_index(uber).iloc[:,6],
                     'amzn': pd.DataFrame.reset_index(amzn).iloc[:,6]})
+port_ret = port.pct_change().dropna()
 p1 = portfolio_spec(assets = ['AAPL', 'MSFT', 'TSLA', 'UBER', 'AMZN'])
 add_constraint(p1, 'long_only')
 add_constraint(p1, 'full_investment')
@@ -37,7 +39,7 @@ p1.port_summary()
 constraints = get_constraints(p1)
 p1.port_summary()
 
-optimize_portfolio(R, p1, optimize_method = 'DEoptim', disp = False)
+optimize_portfolio(port_ret, p1, optimize_method = 'DEoptim', disp = False)
 ```
 
 ## Contributing
