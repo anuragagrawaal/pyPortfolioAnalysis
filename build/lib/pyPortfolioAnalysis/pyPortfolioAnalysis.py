@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[78]:
+# In[1]:
 
 
 """
@@ -10,6 +10,71 @@ pyPortfolioAnalysis: Methods to optimize portfolio
 ==================================================
 
 Documentation is available as docstring or as HTML on https://github.com/anuragagrawaal/pyPortfolioAnalysis
+
+Fucntions and Classes 
+
+
+
+Optimization Methods
+====================
+
+ 'HHI'
+ 'VaR'
+ 'VaR_portfolio'
+ 'add_constraint'
+ 'add_objective'
+ 'black_litterman'
+ 'box_constraint'
+ 'cVaR_portfolio'
+ 'constrained_objective'
+ 'diversification'
+ 'diversification_constraint'
+ 'equal_weight'
+ 'extract_groups'
+ 'extract_objective_measure'
+ 'extract_weights'
+ 'factor_exposure_constraint'
+ 'fn_map'
+ 'generate_sequence'
+ 'get_constraints'
+ 'group_constraint'
+ 'group_fail'
+ 'inverse_volatility_weights'
+ 'leverage_exposure_constraint'
+ 'leverage_fail'
+ 'max_sum_fail'
+ 'min_sum_fail'
+ 'minmax_objective'
+ 'normalize_weights'
+ 'optimize_portfolio'
+ 'performance_metrics_objective
+ 'port_mean'
+ 'portfolio_risk_objective'
+ 'portfolio_spec'
+ 'pos_limit_fail'
+ 'position_limit_constraint'
+ 'return_constraint'
+ 'return_objective'
+ 'risk_budget_objective'
+ 'rp_decrease'
+ 'rp_decrease_leverage'
+ 'rp_increase'
+ 'rp_position_limit'
+ 'rp_transform'
+ 'transaction_cost_constraint'
+ 'turnover'
+ 'turnover_constraint'
+ 'turnover_objective'
+ 'var_portfolio'
+ 'weight_concentration_objective'
+ 'weight_sum_constraint'
+
+
+Plots
+=====
+ 'chart_efficient_frontier'
+ 'chart_group_weights'
+ 'chart_weights'
 
 
 
@@ -33,7 +98,7 @@ Shaw, William Thornton, Portfolio Optimization for VAR, CVaR, Omega and Utility 
 """
 
 
-# In[76]:
+# In[2]:
 
 
 class black_litterman:
@@ -125,7 +190,8 @@ class black_litterman:
     >>> bl.fit(Views = Views)
 
     """
-
+        import numpy as np
+        import pandas as pd
 
 
         if Mu == None:
@@ -144,7 +210,7 @@ class black_litterman:
         return(tot_wgt.dot(wgt_avg))
 
 
-# In[77]:
+# In[3]:
 
 
 class portfolio_spec:
@@ -201,6 +267,10 @@ class portfolio_spec:
         bool to enable or diable message
 
     """
+        import numpy as np
+        import pandas as pd
+
+
 
 
         if assets == None:
@@ -310,13 +380,18 @@ class portfolio_spec:
     >>> optimize_portfolio(R, p1, optimize_method = 'DEoptim')
     >>> p1.optimal_weights()
     """
+        import numpy as np
+        import pandas as pd
+
+
+
         if np.any(self.weights) == None:
             raise SystemExit('Please run optimize_portfolio function before call optimzal weights')
         return({'Assets':self.assets,'Number of Assets':self.nassets,'category_labels':self.category_labels,
                'Weights':self.weights, 'Objective_measures':self.objective_measures})
 
 
-# In[3]:
+# In[4]:
 
 
 def add_constraint(portfolio, kind, enabled = True, **kwargs):
@@ -425,6 +500,10 @@ def add_constraint(portfolio, kind, enabled = True, **kwargs):
                                  [3.4,1.2]]),
                    lower = [0.8,1.4], upper = [2,2.4])
 """
+    import numpy as np
+    import pandas as pd
+
+
 
 
     
@@ -468,7 +547,7 @@ def add_constraint(portfolio, kind, enabled = True, **kwargs):
     return(portfolio)
 
 
-# In[4]:
+# In[5]:
 
 
 def box_constraint(assets, minimum, maximum, kind = 'box', enabled = True, message = True, **kwargs):
@@ -517,6 +596,10 @@ def box_constraint(assets, minimum, maximum, kind = 'box', enabled = True, messa
     --------
     >>> add_constraint(portfolio, kind = 'box', minimum = [0.9, -0.5,-0.5, 0.1], maximum = 1)
 """
+    import numpy as np
+    import pandas as pd
+
+
 
     
     nassets = len(assets)
@@ -538,7 +621,7 @@ def box_constraint(assets, minimum, maximum, kind = 'box', enabled = True, messa
     return(dict(zip(names, [minimum, maximum,enabled])))
 
 
-# In[5]:
+# In[6]:
 
 
 def group_constraint(assets, groups, group_min, group_max, kind = 'group', enabled = True, message = False):
@@ -590,6 +673,10 @@ def group_constraint(assets, groups, group_min, group_max, kind = 'group', enabl
         group_max =1, groups = {'eqity':[0,3], 'debt':[1,2]})
 
 """
+    import numpy as np
+    import pandas as pd
+
+
 
     
 
@@ -622,7 +709,7 @@ def group_constraint(assets, groups, group_min, group_max, kind = 'group', enabl
     return(dict(zip(names, [groups, group_min, group_max, group_label, enabled])))
 
 
-# In[6]:
+# In[7]:
 
 
 def weight_sum_constraint(assets, kind = 'weight_sum', min_sum = 0.99, max_sum = 1.01, enabled = True, message = True):
@@ -678,6 +765,10 @@ def weight_sum_constraint(assets, kind = 'weight_sum', min_sum = 0.99, max_sum =
     >>> add_constraint(portfolio, kind = 'full_investment')
 
 """
+    import numpy as np
+    import pandas as pd
+
+
 
 
 
@@ -695,7 +786,7 @@ def weight_sum_constraint(assets, kind = 'weight_sum', min_sum = 0.99, max_sum =
     return(dict(zip(names, [min_sum, max_sum,enabled])))
 
 
-# In[7]:
+# In[8]:
 
 
 def turnover_constraint(assets, turnover_target,kind = 'turnover',  enabled = True, message = True):
@@ -742,7 +833,7 @@ def turnover_constraint(assets, turnover_target,kind = 'turnover',  enabled = Tr
     return(dict(zip(['turnover_target', 'enabled'],[turnover_target, enabled])))
 
 
-# In[8]:
+# In[9]:
 
 
 def diversification_constraint(assets, div_target, kind = 'diversification', enabled = True, message = True):
@@ -799,7 +890,7 @@ def diversification_constraint(assets, div_target, kind = 'diversification', ena
     return(dict(zip(['diversification_target', 'enabled'], [div_target,enabled])))
 
 
-# In[9]:
+# In[10]:
 
 
 def position_limit_constraint(assets,  max_pos = None,kind = 'position', max_pos_long = None, 
@@ -890,7 +981,7 @@ def position_limit_constraint(assets,  max_pos = None,kind = 'position', max_pos
     return(dict(zip(names, [max_pos, max_pos_long, max_pos_short,enabled])))
 
 
-# In[10]:
+# In[11]:
 
 
 def return_constraint(assets,  return_target, kind = 'return',enabled = True, message = False):
@@ -944,7 +1035,7 @@ def return_constraint(assets,  return_target, kind = 'return',enabled = True, me
     return(dict(zip(['return_target','enabled'], [return_target,enabled])))
 
 
-# In[11]:
+# In[12]:
 
 
 def factor_exposure_constraint(assets, B, lower, upper, kind = 'factor_exposure', enabled = True, message = False):
@@ -1004,6 +1095,10 @@ def factor_exposure_constraint(assets, B, lower, upper, kind = 'factor_exposure'
 
 """
 
+    import numpy as np
+    import pandas as pd
+
+
 
 
     nassets = len(assets)
@@ -1025,7 +1120,7 @@ def factor_exposure_constraint(assets, B, lower, upper, kind = 'factor_exposure'
     return(dict(zip(names, [B, lower, upper, enabled])))
 
 
-# In[12]:
+# In[13]:
 
 
 def transaction_cost_constraint(assets, ptc, kind = 'transaction', enabled = True, message = True):
@@ -1079,7 +1174,7 @@ def transaction_cost_constraint(assets, ptc, kind = 'transaction', enabled = Tru
     return(dict(zip(['ptc','enabled'], [ptc,enabled])))
 
 
-# In[13]:
+# In[14]:
 
 
 def leverage_exposure_constraint(assets, leverage, kind = 'leverage_exposure', enabled = True, message = True):
@@ -1131,7 +1226,7 @@ def leverage_exposure_constraint(assets, leverage, kind = 'leverage_exposure', e
     return(dict(zip(['leverage','enabled'], [leverage,enabled])))
 
 
-# In[14]:
+# In[15]:
 
 
 def diversification(weights):
@@ -1165,7 +1260,7 @@ def diversification(weights):
     return(div)
 
 
-# In[15]:
+# In[16]:
 
 
 def get_constraints(portfolio):
@@ -1191,7 +1286,7 @@ def get_constraints(portfolio):
     return(portfolio.constraints)
 
 
-# In[16]:
+# In[17]:
 
 
 def add_objective(portfolio, kind, name, arguments = None, constraints = None, enabled = True, message = True, **kwargs):
@@ -1273,6 +1368,10 @@ def add_objective(portfolio, kind, name, arguments = None, constraints = None, e
 
 """
 
+    import numpy as np
+    import pandas as pd
+
+
 
     
     if kind == None:
@@ -1309,7 +1408,7 @@ def add_objective(portfolio, kind, name, arguments = None, constraints = None, e
     return(portfolio)
 
 
-# In[17]:
+# In[18]:
 
 
 def return_objective(name, target, arguments, multiplier = -1, enabled = True):
@@ -1374,11 +1473,16 @@ def return_objective(name, target, arguments, multiplier = -1, enabled = True):
 
 
 """
+    import numpy as np
+    import pandas as pd
+
+
+
 
     return(dict(zip(['target', 'multiplier', 'arguments','enabled','name'], [target, multiplier, arguments,enabled,name])))
 
 
-# In[18]:
+# In[19]:
 
 
 def portfolio_risk_objective(name, target, arguments, multiplier = -1, enabled = True):
@@ -1443,11 +1547,15 @@ def portfolio_risk_objective(name, target, arguments, multiplier = -1, enabled =
    
 
 """
+    import numpy as np
+    import pandas as pd
+
+
 
     return(dict(zip(['target', 'multiplier', 'arguments','enabled','name'], [target, multiplier, arguments,enabled,name])))
 
 
-# In[19]:
+# In[20]:
 
 
 def risk_budget_objective(assets, name, min_prisk = None, max_prisk = None, target = None, arguments = None, multiplier = 1, enabled = True, min_concentration = False, min_difference = False):
@@ -1516,6 +1624,10 @@ def risk_budget_objective(assets, name, min_prisk = None, max_prisk = None, targ
 
 
 """
+    import numpy as np
+    import pandas as pd
+
+
 
     nassets = len(assets)
     if arguments == None:
@@ -1536,7 +1648,7 @@ def risk_budget_objective(assets, name, min_prisk = None, max_prisk = None, targ
     return(dict(zip(names, obj)))
 
 
-# In[20]:
+# In[21]:
 
 
 def turnover_objective(name, arguments, target = None, multiplier = 1, enabled = True):
@@ -1609,7 +1721,7 @@ def turnover_objective(name, arguments, target = None, multiplier = 1, enabled =
     return(dict(zip(['target', 'multiplier', 'arguments','enabled','name'], [target, multiplier, arguments,enabled,name])))
 
 
-# In[21]:
+# In[22]:
 
 
 def minmax_objective(name, minimum, maximum, multiplier = 1, arguments = None, target = None, enabled = True):
@@ -1673,13 +1785,17 @@ def minmax_objective(name, minimum, maximum, multiplier = 1, arguments = None, t
 
 
 """
+    import numpy as np
+    import pandas as pd
+
+
 
 
     names = ['minimum', 'maximum', 'multiplier', 'arguments', 'target','enabled','name']
     return(dict(zip(names, [minimum, maximum, multiplier, arguments, target,enabled,name])))
 
 
-# In[22]:
+# In[23]:
 
 
 def weight_concentration_objective(name, conc_aversion, conc_groups = None, multiplier = 1,arguments = None, enabled = True):
@@ -1746,6 +1862,10 @@ def weight_concentration_objective(name, conc_aversion, conc_groups = None, mult
 
 
 """
+    import numpy as np
+    import pandas as pd
+
+
 
 
     if conc_groups != None:
@@ -1763,7 +1883,7 @@ def weight_concentration_objective(name, conc_aversion, conc_groups = None, mult
     return(dict(zip(names, [conc_aversion, conc_groups, arguments,multiplier,enabled,name])))
 
 
-# In[23]:
+# In[24]:
 
 
 def performance_metrics_objective(name, arguments, target = None, multiplier = 1, enabled = True):
@@ -1832,7 +1952,7 @@ def performance_metrics_objective(name, arguments, target = None, multiplier = 1
     return(dict(zip(['target', 'multiplier', 'arguments','enabled','name'], [target, multiplier, arguments,enabled,name])))
 
 
-# In[24]:
+# In[25]:
 
 
 def turnover(weights, wgt_init = None):
@@ -1875,6 +1995,10 @@ def turnover(weights, wgt_init = None):
     >>> w = [0.2,0.3,0.4,-.4,0.5]
     >>> turnover(w)
 """
+    import numpy as np
+    import pandas as pd
+
+
 
     N = len(weights)
     if wgt_init == None:
@@ -1884,7 +2008,7 @@ def turnover(weights, wgt_init = None):
     return(sum(abs(wgt_init-weights))/N)
 
 
-# In[25]:
+# In[26]:
 
 
 def var_portfolio(R, weights):
@@ -1936,13 +2060,17 @@ def var_portfolio(R, weights):
     >>> var_portfolio(w,R)
 
 """
+    import numpy as np
+    import pandas as pd
+
+
 
 
     weights = np.matrix(weights)
     return(float(weights.dot(R.cov()).dot(np.transpose(weights))))
 
 
-# In[26]:
+# In[27]:
 
 
 def HHI(weights, groups = None):
@@ -1979,6 +2107,10 @@ def HHI(weights, groups = None):
 
 
 """
+    import numpy as np
+    import pandas as pd
+
+
 
 
     if groups == None:
@@ -1992,7 +2124,7 @@ def HHI(weights, groups = None):
         return(group_hhi)
 
 
-# In[27]:
+# In[28]:
 
 
 def port_mean(weights, mu):
@@ -2035,12 +2167,17 @@ def port_mean(weights, mu):
 
 
 """
+    import numpy as np
+    import pandas as pd
+
+
+
 
 
     return(float(np.matrix(weights).dot(np.transpose(mu))))
 
 
-# In[28]:
+# In[29]:
 
 
 def VaR(R, p = 0.05):
@@ -2069,6 +2206,10 @@ def VaR(R, p = 0.05):
     --------
     >>> VaR(R,p = 0.01)
 """
+    import numpy as np
+    import pandas as pd
+
+
 
 
     r_mean = np.mean(R)
@@ -2079,7 +2220,7 @@ def VaR(R, p = 0.05):
     return(VaR)
 
 
-# In[29]:
+# In[30]:
 
 
 def VaR_portfolio(w,R,p = 0.05, mean = True):
@@ -2115,6 +2256,10 @@ def VaR_portfolio(w,R,p = 0.05, mean = True):
     >>> w = [0.2,0.3,0.5]
     >>> VaR_portfolio(w,R,p = 0.01)
 """
+    import numpy as np
+    import pandas as pd
+
+
 
     r_mean = np.mean(R)
     r_cov = np.cov(np.transpose(np.matrix(R)))
@@ -2128,7 +2273,7 @@ def VaR_portfolio(w,R,p = 0.05, mean = True):
         return(var_port)
 
 
-# In[30]:
+# In[31]:
 
 
 def cVaR_portfolio(w,R,p = 0.05, mean = True):
@@ -2165,6 +2310,10 @@ def cVaR_portfolio(w,R,p = 0.05, mean = True):
     >>> cVaR_portfolio(w,R,p = 0.01)
 """
 
+    import numpy as np
+    import pandas as pd
+
+
 
 
     VaR_port = VaR_portfolio(w,R,p, mean = False)
@@ -2177,7 +2326,7 @@ def cVaR_portfolio(w,R,p = 0.05, mean = True):
         return(cvar_vec)
 
 
-# In[31]:
+# In[32]:
 
 
 def group_fail(weights, groups = None, cLO = None, cUP = None, group_pos = None):
@@ -2206,6 +2355,10 @@ def group_fail(weights, groups = None, cLO = None, cUP = None, group_pos = None)
     
 """
 
+    import numpy as np
+    import pandas as pd
+
+
 
     if (np.any(weights) == None) or type(cLO) == None or type(cUP) == None:
         raise ValueError('One or more arguments is incorrect')
@@ -2225,7 +2378,7 @@ def group_fail(weights, groups = None, cLO = None, cUP = None, group_pos = None)
         return(False)
 
 
-# In[32]:
+# In[33]:
 
 
 def normalize_weights(weights):
@@ -2245,6 +2398,10 @@ def normalize_weights(weights):
     'pso', 'dual_annealing', 'shgo', 'basinhopping', 'brute'.
 """
 
+    import numpy as np
+    import pandas as pd
+
+
 
     weights = np.array(weights)
     if not (constraints.get('weight_sum') is None):
@@ -2259,7 +2416,7 @@ def normalize_weights(weights):
     return(weights)    
 
 
-# In[33]:
+# In[34]:
 
 
 def generate_sequence(minimum = 0.01, maximum = 1.01, by = 0.01/1, rounding = 3):
@@ -2286,12 +2443,16 @@ def generate_sequence(minimum = 0.01, maximum = 1.01, by = 0.01/1, rounding = 3)
     
 """
 
+    import numpy as np
+    import pandas as pd
+
+
 
     ret = np.arange(start = round(minimum, rounding), stop = round(maximum, rounding), step = by)
     return(ret)
 
 
-# In[34]:
+# In[35]:
 
 
 def pos_limit_fail(weights, max_pos = None, max_pos_long= None, max_pos_short = None):
@@ -2317,6 +2478,10 @@ def pos_limit_fail(weights, max_pos = None, max_pos_long= None, max_pos_short = 
     Returns "True" if the weights fail the pos_limit constraint. called by rp_transform. see rp_transform.
     
 """
+    import numpy as np
+    import pandas as pd
+
+
 
     tolerance = 1.490116e-08
     if not (max_pos == None):
@@ -2331,7 +2496,7 @@ def pos_limit_fail(weights, max_pos = None, max_pos_long= None, max_pos_short = 
     return(False)
 
 
-# In[35]:
+# In[36]:
 
 
 def leverage_fail(weights, leverage = None):
@@ -2353,9 +2518,17 @@ def leverage_fail(weights, leverage = None):
     See Also
     --------
     pos_limit_fail
-    rp_transform
+      import numpy as np
+    import pandas as pd
+
+
+  rp_transform
     
 """
+
+
+    import numpy as np
+    import pandas as pd
 
 
 
@@ -2367,7 +2540,7 @@ def leverage_fail(weights, leverage = None):
         return(False)
 
 
-# In[36]:
+# In[37]:
 
 
 def max_sum_fail(weights, max_sum = None):
@@ -2393,6 +2566,10 @@ def max_sum_fail(weights, max_sum = None):
    
 """
 
+    import numpy as np
+    import pandas as pd
+
+
 
     if max_sum == None:
         return(False)
@@ -2402,7 +2579,7 @@ def max_sum_fail(weights, max_sum = None):
         return(False)       
 
 
-# In[37]:
+# In[38]:
 
 
 def min_sum_fail(weights, min_sum = None):
@@ -2429,6 +2606,10 @@ def min_sum_fail(weights, min_sum = None):
    
 """
 
+    import numpy as np
+    import pandas as pd
+
+
 
 
     if min_sum == None:
@@ -2439,7 +2620,7 @@ def min_sum_fail(weights, min_sum = None):
         return False       
 
 
-# In[38]:
+# In[39]:
 
 
 def rp_decrease(weights, max_sum, min_box, weight_seq):
@@ -2471,6 +2652,10 @@ def rp_decrease(weights, max_sum, min_box, weight_seq):
     rp_transform
     
 """
+    import numpy as np
+    import pandas as pd
+
+
 
 
     if sum(weights) <= max_sum:
@@ -2493,7 +2678,7 @@ def rp_decrease(weights, max_sum, min_box, weight_seq):
     return(tmp_w)
 
 
-# In[39]:
+# In[40]:
 
 
 def rp_decrease_leverage(weights, max_box, min_box, leverage, weight_seq):
@@ -2528,6 +2713,10 @@ def rp_decrease_leverage(weights, max_box, min_box, leverage, weight_seq):
     
 """
 
+    import numpy as np
+    import pandas as pd
+
+
 
 
     tmp_w = weights
@@ -2553,7 +2742,7 @@ def rp_decrease_leverage(weights, max_box, min_box, leverage, weight_seq):
     return(tmp_w)
 
 
-# In[40]:
+# In[41]:
 
 
 def rp_increase(weights, min_sum, max_box, weight_seq):
@@ -2587,6 +2776,10 @@ def rp_increase(weights, min_sum, max_box, weight_seq):
     
 """
 
+    import numpy as np
+    import pandas as pd
+
+
 
 
     if sum(weights) >= min_sum:
@@ -2609,7 +2802,7 @@ def rp_increase(weights, min_sum, max_box, weight_seq):
     return(tmp_w)
 
 
-# In[41]:
+# In[42]:
 
 
 def rp_position_limit(weights,min_box, max_box, weight_seq, max_pos = None, max_pos_long = None, max_pos_short = None):
@@ -2649,6 +2842,10 @@ def rp_position_limit(weights,min_box, max_box, weight_seq, max_pos = None, max_
     
 """
 
+    import numpy as np
+    import pandas as pd
+
+
 
 
     tmp_w = weights
@@ -2681,7 +2878,7 @@ def rp_position_limit(weights,min_box, max_box, weight_seq, max_pos = None, max_
     return(tmp_w)
 
 
-# In[42]:
+# In[43]:
 
 
 def rp_transform(w, min_sum, max_sum, min_box, max_box, groups = None, 
@@ -2743,6 +2940,10 @@ def rp_transform(w, min_sum, max_sum, min_box, max_box, groups = None,
    
    
 """
+    import numpy as np
+    import pandas as pd
+
+
 
 
     import itertools
@@ -2806,7 +3007,7 @@ def rp_transform(w, min_sum, max_sum, min_box, max_box, groups = None,
     return(portfolio)
 
 
-# In[43]:
+# In[44]:
 
 
 def fn_map(weights, portfolio, relax = False, verbose = False):
@@ -2834,6 +3035,10 @@ def fn_map(weights, portfolio, relax = False, verbose = False):
     called by optimize_portfolio if optimize_method = 'DEoptim' or 'pso'
    
 """
+
+    import numpy as np
+    import pandas as pd
+
 
 
     nassets = len(portfolio.assets)
@@ -3100,7 +3305,7 @@ def fn_map(weights, portfolio, relax = False, verbose = False):
                    [tmp_weights, tmp_min, tmp_max, tmp_cLO, tmp_cUP, tmp_max_pos, tmp_max_pos_long, tmp_max_pos_short, tmp_leverage, min_sum, max_sum])))
 
 
-# In[44]:
+# In[45]:
 
 
 def extract_weights(portfolio):
@@ -3128,6 +3333,10 @@ def extract_weights(portfolio):
     NOTE: extract_weights will only work after calling optimize_portfolio on portfolio_spec
     
     """
+    import numpy as np
+    import pandas as pd
+
+
 
 
 
@@ -3137,7 +3346,7 @@ def extract_weights(portfolio):
         raise ValueError('Portfolio_spec object does not have any weights. Please run optimize_portfolio before extracting weights')
 
 
-# In[45]:
+# In[46]:
 
 
 def extract_objective_measure(R, portfolio, **kwargs):
@@ -3171,6 +3380,10 @@ def extract_objective_measure(R, portfolio, **kwargs):
     
     """
 
+    import numpy as np
+    import pandas as pd
+
+
 
 
     if not (portfolio.weights == None):
@@ -3181,7 +3394,7 @@ def extract_objective_measure(R, portfolio, **kwargs):
     return(tmp_objective_measure)
 
 
-# In[46]:
+# In[47]:
 
 
 def extract_groups(portfolio):
@@ -3212,6 +3425,10 @@ def extract_groups(portfolio):
     """
 
 
+    import numpy as np
+    import pandas as pd
+
+
 
     constraints = get_constraints(portfolio)
     if not (constraints.get('group') == None):
@@ -3234,7 +3451,7 @@ def extract_groups(portfolio):
     return(tmp_group_w)   
 
 
-# In[47]:
+# In[48]:
 
 
 def constrained_objective(w, R, portfolio, trace = False,
@@ -3281,7 +3498,12 @@ def constrained_objective(w, R, portfolio, trace = False,
     
     Loosely speaking, constrained_objective is very similar to an information criteria.
 
-"""
+"""    
+    import numpy as np
+    import pandas as pd
+
+
+
 
     if len(R.columns)>len(w):
         R = R.iloc[:,0:len(w)]
@@ -3623,7 +3845,7 @@ def constrained_objective(w, R, portfolio, trace = False,
         return(float(out))
 
 
-# In[48]:
+# In[49]:
 
 
 def chart_weights(portfolio):
@@ -3653,6 +3875,11 @@ def chart_weights(portfolio):
     NOTE: chart_group_weights will only work after call optimize_portfolio on portfolio_spec
     
     """
+    import numpy as np
+    import pandas as pd
+
+
+
     import matplotlib.pyplot as plt
     w = portfolio.weights
     constraints = get_constraints(portfolio)
@@ -3677,7 +3904,7 @@ def chart_weights(portfolio):
     plt.xticks(list(range(0,nassets)), labels = assets)
 
 
-# In[49]:
+# In[50]:
 
 
 def chart_group_weights(portfolio):
@@ -3708,6 +3935,10 @@ def chart_group_weights(portfolio):
 
 
     import matplotlib.pyplot as plt
+    import numpy as np
+    import pandas as pd
+
+
 
 
     constraints = get_constraints(portfolio)
@@ -3726,7 +3957,7 @@ def chart_group_weights(portfolio):
     plt.show()
 
 
-# In[50]:
+# In[51]:
 
 
 def chart_efficient_frontier(portfolio, R, metric = 'Sharpe Ratio', arguments = {'rf':0.00}, cml = False,
@@ -3779,6 +4010,10 @@ def chart_efficient_frontier(portfolio, R, metric = 'Sharpe Ratio', arguments = 
 
 
     import matplotlib.pyplot as plt
+    import numpy as np
+    import pandas as pd
+
+
 
 
     constraints = get_constraints(portfolio)
@@ -3877,7 +4112,7 @@ def chart_efficient_frontier(portfolio, R, metric = 'Sharpe Ratio', arguments = 
     plt.colorbar(label = metric)
 
 
-# In[51]:
+# In[52]:
 
 
 def optimize_portfolio(R, portfolio = None, constraints = None, objectives = None, 
@@ -3989,6 +4224,10 @@ def optimize_portfolio(R, portfolio = None, constraints = None, objectives = Non
     NOTE: 'best' optimize_method takes a while to give ouput because it uses all other optimizers.
     
     """
+    import numpy as np
+    import pandas as pd
+
+
 
     
     if type(portfolio) == list:
@@ -4644,7 +4883,7 @@ def optimize_portfolio(R, portfolio = None, constraints = None, objectives = Non
             portfolio.objecitve_measures = out['objective_measures']
 
 
-# In[52]:
+# In[53]:
 
 
 def equal_weight(R, portfoio, **kwargs):
@@ -4676,6 +4915,10 @@ def equal_weight(R, portfoio, **kwargs):
     
     """
 
+    import numpy as np
+    import pandas as pd
+
+
 
 
     assets = portfolio.assets
@@ -4687,7 +4930,7 @@ def equal_weight(R, portfoio, **kwargs):
     return(tmp_out)
 
 
-# In[53]:
+# In[54]:
 
 
 def inverse_volatility_weights(R, portfoio, **kwargs):
@@ -4719,6 +4962,10 @@ def inverse_volatility_weights(R, portfoio, **kwargs):
     >>> inverse_volatility_weight(R, portfolio)
     
     """
+    import numpy as np
+    import pandas as pd
+
+
 
 
 
