@@ -4,7 +4,7 @@ pyPortfolioAnalysis is a Python library for numeric method for portfolio optimis
 
 ## Installation
 
-Use the package manager [pip](https://pip.pypa.io/en/stable/) to install foobar.
+Use the package manager [pip](https://pip.pypa.io/en/stable/) to install [pyPortfolioAnalysis](https://pypi.org/project/pyPortfolioAnalysis/).
 
 Documentation is available as docstring or as HTML on https://github.com/anuragagrawaal/pyPortfolioAnalysis
 
