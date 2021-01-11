@@ -1,0 +1,2295 @@
+Help on module pyPortfolioAnalysis:
+
+NAME
+    pyPortfolioAnalysis
+
+
+DESCRIPTION
+    pyPortfolioAnalysis: Methods to optimize portfolio
+    ==================================================
+    
+    Documentation is available as docstring or as HTML on https://github.com/anuragagrawaal/pyPortfolioAnalysis
+    
+    Functions and Classes 
+    
+    
+    
+    Optimization Methods
+    ====================
+    
+     'HHI'
+     'VaR'
+     'VaR_portfolio'
+     'add_constraint'
+     'add_objective'
+     'black_litterman'
+     'box_constraint'
+     'cVaR_portfolio'
+     'constrained_objective'
+     'diversification'
+     'diversification_constraint'
+     'equal_weight'
+     'extract_groups'
+     'extract_objective_measure'
+     'extract_weights'
+     'factor_exposure_constraint'
+     'fn_map'
+     'generate_sequence'
+     'get_constraints'
+     'group_constraint'
+     'group_fail'
+     'inverse_volatility_weights'
+     'leverage_exposure_constraint'
+     'leverage_fail'
+     'max_sum_fail'
+     'min_sum_fail'
+     'minmax_objective'
+     'normalize_weights'
+     'optimize_portfolio'
+     'performance_metrics_objective
+     'port_mean'
+     'portfolio_risk_objective'
+     'portfolio_spec'
+     'pos_limit_fail'
+     'position_limit_constraint'
+     'return_constraint'
+     'return_objective'
+     'risk_budget_objective'
+     'rp_decrease'
+     'rp_decrease_leverage'
+     'rp_increase'
+     'rp_position_limit'
+     'rp_transform'
+     'transaction_cost_constraint'
+     'turnover'
+     'turnover_constraint'
+     'turnover_objective'
+     'var_portfolio'
+     'weight_concentration_objective'
+     'weight_sum_constraint'
+    
+    
+    Plots
+    =====
+     'chart_efficient_frontier'
+     'chart_group_weights'
+     'chart_weights'
+    
+    
+    
+    
+    References
+    ----------
+    Brian G. Peterson and Peter Carl (2018). PortfolioAnalytics: Portfolio Analysis, Including Numerical Methods for Optimization of Portfolios. R package version 1.1.0. https://CRAN.R-project.org/package=PortfolioAnalytics
+      
+    Boudt, Kris and Lu, Wanbo and Peeters, Benedict, Higher Order Comoments of Multifactor Models and Asset Allocation (June 16, 2014). Available at SSRN: http://ssrn.com/abstract=2409603 or http://dx.doi.org/10.2139/ssrn.2409603
+    
+    Chriss, Neil A and Almgren, Robert, Portfolios from Sorts (April 27, 2005). Available at SSRN: http://ssrn.com/abstract=720041 or http://dx.doi.org/10.2139/ssrn.720041
+    
+    Meucci, Attilio, The Black-Litterman Approach: Original Model and Extensions (August 1, 2008). Shorter version in, THE ENCYCLOPEDIA OF QUANTITATIVE FINANCE, Wiley, 2010. Avail- able at SSRN: http://ssrn.com/abstract=1117574 or http://dx.doi.org/10.2139/ssrn.1117574
+    
+    Meucci, Attilio, Fully Flexible Views: Theory and Practice (August 8, 2008). Fully Flexible Views: Theory and Practice, Risk, Vol. 21, No. 10, pp. 97-102, October 2008. Available at SSRN: http://ssrn.com/abstract=1213325
+    
+    Scherer, Bernd and Martin, Doug, Modern Portfolio Optimization. Springer. 2005.
+    
+    Shaw, William Thornton, Portfolio Optimization for VAR, CVaR, Omega and Utility with General Return Distributions: A Monte Carlo Approach for Long-Only and Bounded Short Portfolios with Optional Robustness and a Simplified Approach to Covariance Matching (June 1, 2011). Available at SSRN: http://ssrn.com/abstract=1856476 or http://dx.doi.org/10.2139/ssrn.1856476
+
+CLASSES
+    black_litterman
+    portfolio_spec
+    
+    class black_litterman
+     |  A class to call black_litterman object.
+     |  
+     |  Black-litterman formula is popular to get posterior moments of the portfolio.
+     |  
+     |  ...
+     |  
+     |  Attributes
+     |  ----------
+     |  R : pandas.DataFrame
+     |      dataframe of returns series.
+     |  P : matrix-like,
+     |      KXN link matrix where N is the number of assets and K are the views
+     |      
+     |  Methods
+     |  -------
+     |  fit(Mu = None, S = None, Views = None, tau = 1):
+     |      returns a matrix of posterior returns based on Views and returns data.
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, R, P)
+     |      Constructor for all necessary attributes of class black_litterman
+     |      
+     |      ...
+     |      
+     |      Attributes
+     |      ----------
+     |      R : pandas.DataFrame
+     |          dataframe of returns series.
+     |      P : matrix-like,
+     |          KXN link matrix where N is the number of assets and K are the views
+     |  
+     |  fit(self, Mu=None, S=None, Views=None, tau=1)
+     |      fit method of black_litterman object
+     |      
+     |      Main function to call in order to return the posterior mean of the portfolio given the views and return.
+     |      
+     |      Parameters
+     |      ----------
+     |      Mu : array-like, optional
+     |          prior mean of the returns. numpy.mean is called if Mu is None
+     |      S : matrix-like, optional
+     |          NXN covariance matrix. numpy.cov is called if S is None
+     |      Views: array-like, default = None
+     |          array of K views held by investor. 
+     |      Tau: float, default = 1
+     |          multiplying factor to be used.
+     |          
+     |      Returns
+     |      -------
+     |      array:
+     |          returns an array of posterior moments of portfolio given the returns and weights
+     |      
+     |      See Also
+     |      --------
+     |      portfolio_spec
+     |      optimize_portfolio
+     |      
+     |      Notes
+     |      -----
+     |      
+     |      Black-litterman formula is very useful if an investor believes that a particular stock is going to rise
+     |      compared to others although this information is not incorporated in the stock price. Essentially, it captures
+     |      the views an investor holds for a particular asset.
+     |      
+     |      Examples
+     |      --------
+     |      >>> import pandas_datareader as pdr
+     |      >>> aapl = pdr.get_data_yahoo('AAPL')
+     |      >>> msft = pdr.get_data_yahoo('MSFT')
+     |      >>> tsla = pdr.get_data_yahoo('TSLA')
+     |      >>> port = pd.DataFrame({'aapl': pd.DataFrame.reset_index(aapl).iloc[:,6], 'msft':pd.DataFrame.reset_index(msft).iloc[:,6],
+     |                         'tsla': pd.DataFrame.reset_index(tsla).iloc[:,6]})
+     |      >>> port_ret = port.pct_change().dropna()
+     |      >>> P = np.matrix([[-1, 0, 1],[0,-1,1]])
+     |      >>> Views = np.matrix([[0.02],
+     |                     [0.05]])
+     |      >>> bl = black_litterman(R = port_ret, P = P)
+     |      >>> bl.fit(Views = Views)
+    
+    class portfolio_spec
+     |  A class to call portfolio_spec object.
+     |  
+     |  portfolio_spec object is the main class that contains all the constraints, objectives, optimal weights;
+     |  it is called by many functions to get relevant attributes and store attributes.
+     |  
+     |  ...
+     |  
+     |  Attributes
+     |  ----------
+     |  
+     |  assets : int, or array-like,
+     |      add assets to portfolio either via name of assets in the form of an array or int of number of assets.
+     |  category_label: dict, optional
+     |      dictionary of different categories assigned to different assets. similar to group_constraint.
+     |      See group_constraint.
+     |  weights_seq : sequence, optional
+     |      sequence of random weights. These weights will be used to optimize weights. See generate_sequence
+     |  message : bool, default = False
+     |      bool to enable or diable message
+     |      
+     |  Methods
+     |  -------
+     |  port_summary():
+     |      returns a dictionary of the summary of constraints and objective added by add_consraint and add_objective
+     |      funtions. See add_constraint, add_objective
+     |  optimal_portfolio():
+     |      returns a dictionary of optimal weights, objective measure and minimum value calculated by the specified solver
+     |      NOTE: optimal_portfolio will only return result if optimize_portfolio is called. See optimize_portfolio
+     |  
+     |  Methods defined here:
+     |  
+     |  __init__(self, assets, category_labels=None, weights_seq=None, message=False)
+     |      Constructor for all necessary attributes of class black_litterman
+     |      
+     |      ...
+     |      
+     |      Attributes
+     |      ----------
+     |      
+     |      assets : int, or array-like,
+     |          add assets to portfolio either via name of assets in the form of an array or int of number of assets.
+     |      category_label: dict, optional
+     |          dictionary of different categories assigned to different assets. similar to group_constraint.
+     |          See group_constraint.
+     |      weights_seq : sequence, optional
+     |          sequence of random weights. These weights will be used to optimize weights. See generate_sequence
+     |      message : bool, default = False
+     |          bool to enable or diable message
+     |  
+     |  optimal_portfolio(self)
+     |      summary of the portfolio
+     |      
+     |      method to provide a summary of the optimal weights, objective and minimum output of portfolio.
+     |              
+     |      Returns
+     |      -------
+     |      dict:
+     |          returns a dictionary of optimal weights, objective and minimum output of portfolio
+     |      
+     |      See Also
+     |      --------
+     |      portfolio_spec
+     |      optimize_portfolio
+     |      
+     |      Examples
+     |      --------
+     |      >>> import pandas_datareader as pdr
+     |      >>> aapl = pdr.get_data_yahoo('AAPL')
+     |      >>> msft = pdr.get_data_yahoo('MSFT')
+     |      >>> tsla = pdr.get_data_yahoo('TSLA')
+     |      >>> uber = pdr.get_data_yahoo('UBER')
+     |      >>> amzn = pdr.get_data_yahoo('AMZN')
+     |      >>> port = pd.DataFrame({'aapl': pd.DataFrame.reset_index(aapl).iloc[:,6], 'msft':pd.DataFrame.reset_index(msft).iloc[:,6],
+     |          'tsla': pd.DataFrame.reset_index(tsla).iloc[:,6], 'uber':pd.DataFrame.reset_index(uber).iloc[:,6],
+     |          'amzn': pd.DataFrame.reset_index(amzn).iloc[:,6]})
+     |      >>> port_ret = port.pct_change().dropna()
+     |      >>> R = port_ret
+     |      >>> p1 = portfolio_spec(assets = 3)
+     |      >>> add_constraint(portfolio = p1, kind = 'factor_exposure', B = [0.2,0.2,0.4], lower = 1.0, upper = 0.9)
+     |      >>> add_constraint(portfolio = p1, kind = 'group', groups = dict(zip(['equity','debt'],[[0,1], [2]])), group_min = 0.2, group_max = 0.5)
+     |      >>> add_constraint(portfolio = p1, kind = 'transaction', ptc = 0.2)
+     |      >>> add_objective(portfolio = p1, kind = 'return', target = 0.1, name = 'return_obj')
+     |      >>> add_objective(portfolio = p1, kind = 'minmax',  minimum = 0.2, maximum = 0.3,name = 'risk')
+     |      >>> optimize_portfolio(R, p1, optimize_method = 'DEoptim')
+     |      >>> p1.optimal_weights()
+     |  
+     |  port_summary(self)
+     |      summary of the portfolio
+     |      
+     |      method to provide a summary of the portfolio.
+     |              
+     |      Returns
+     |      -------
+     |      dict:
+     |          returns a dictionary of all constraints and objective
+     |      
+     |      See Also
+     |      --------
+     |      portfolio_spec
+     |      optimize_portfolio
+     |      
+     |      Examples
+     |      --------
+     |      >>> import pandas_datareader as pdr
+     |      >>> aapl = pdr.get_data_yahoo('AAPL')
+     |      >>> msft = pdr.get_data_yahoo('MSFT')
+     |      >>> tsla = pdr.get_data_yahoo('TSLA')
+     |      >>> uber = pdr.get_data_yahoo('UBER')
+     |      >>> amzn = pdr.get_data_yahoo('AMZN')
+     |      >>> port = pd.DataFrame({'aapl': pd.DataFrame.reset_index(aapl).iloc[:,6], 'msft':pd.DataFrame.reset_index(msft).iloc[:,6],
+     |          'tsla': pd.DataFrame.reset_index(tsla).iloc[:,6], 'uber':pd.DataFrame.reset_index(uber).iloc[:,6],
+     |          'amzn': pd.DataFrame.reset_index(amzn).iloc[:,6]})
+     |      >>> port_ret = port.pct_change().dropna()
+     |      >>> R = port_ret
+     |      >>> p1 = portfolio_spec(assets = 3)
+     |      >>> add_constraint(portfolio = p1, kind = 'factor_exposure', B = [0.2,0.2,0.4], lower = 1.0, upper = 0.9)
+     |      >>> add_constraint(portfolio = p1, kind = 'group', groups = dict(zip(['equity','debt'],[[0,1], [2]])), group_min = 0.2, group_max = 0.5)
+     |      >>> add_constraint(portfolio = p1, kind = 'transaction', ptc = 0.2)
+     |      >>> add_objective(portfolio = p1, kind = 'return', target = 0.1, name = 'return_obj')
+     |      >>> add_objective(portfolio = p1, kind = 'minmax',  minimum = 0.2, maximum = 0.3,name = 'risk')
+     |      >>> p1.port_summary()
+
+FUNCTIONS
+    HHI(weights, groups=None)
+        The Herfindahl Hirschman Index measures the concentration of weights using this function.
+        
+        Concentration of weights
+        
+        Parameters
+        ----------
+        weights : array-like,
+            collection of weights of the portfolio.
+        groups : dict,
+            dictionary of groups.  
+        
+        Returns
+        -------
+        returns the weight concentration given the weights
+        
+        See Also
+        --------
+        port_mean
+        var_portfolio
+        VaR
+        cVaR
+        
+        
+        Examples
+        --------
+        >>> # calculate HHI
+        >>> w = [0.2,0.3,-0.1,0.6,0.8]
+        >>> HHI(w)
+    
+    VaR(R, p=0.05)
+        Calculate the value at risk (VaR)
+        
+        This function calculates the value at risk (VaR) assuming gaussian distribution
+        
+        Parameters
+        ----------
+        R : pd.DataFrame object,
+            returns dataframe
+        p : float, optional
+            quantile estimate
+        
+        Returns
+        -------
+        Calculates the VaR given returns
+        
+        See Also
+        --------
+        cVaR
+        VaR_portfolio
+            
+        Examples
+        --------
+        >>> VaR(R,p = 0.01)
+    
+    VaR_portfolio(w, R, p=0.05, mean=True)
+        calculate the value at risk (VaR) of a portfolio
+        
+        This function calculates the value at risk (VaR) assuming gaussian distribution
+        
+        Parameters
+        ----------
+        w : array-like,
+            list of weights of portfolio
+        R : pd.DataFrame object,
+            returns dataframe
+        p : float, optional
+            quantile estimate
+        mean : bool, default = True
+            mean VaR of portfolio
+            
+        Returns
+        -------
+        Calculates the VaR given portfolio weights
+        
+        See Also
+        --------
+        cVaR
+        VaR_portfolio
+        VaR
+            
+        Examples
+        --------
+        >>> w = [0.2,0.3,0.5]
+        >>> VaR_portfolio(w,R,p = 0.01)
+    
+    add_constraint(portfolio, kind, enabled=True, **kwargs)
+        Add a constraint in portfolio_spec object
+        
+        Main function to add or update constraint in portfolio_spec object
+        
+        Parameters
+        ----------
+        portfolio : portfolio_spec,
+                an object of class portfolio_spec. see portfolio_spec
+        kind : str,
+                currently supported constraint: ’weight_sum’ (also ’leverage’ or ’weight’), ’box’, ’group’,
+               ’turnover’,’diversification’, ’position_limit’, ’return’, ’factor_exposure’,
+                or ’leverage_exposure’.    
+        enabled : bool, default = True
+                bool to enable or disable constraints.
+        kwargs : additional key word arguments, optional
+                any additional constraint argument to be passed.
+        
+        Returns
+        -------
+        Adds constraints to object portfolio_spec of the specified input. 
+        
+        See Also
+        --------
+        add_constraints
+        box_constraints
+        group_constraints
+        weight_sum_constraint
+        turnover_constraint
+        diversification_constraint
+        position_limit_constraint
+        return_constraint
+        factor_exposure_constraint
+        transaction_cost_constraint
+        leverage_exposure_constraint
+        
+        
+        Notes
+        -----
+        •weight_sum, weight, leverage Specify constraint on the sum of the weights, see weight_sum_constraint    
+        •full_investment Special case to set min_sum=1 and max_sum=1 of weight sum constraints
+        •dollar_neutral, active Special case to set min_sum=0 and max_sum=0 of weight_sum constraints
+        •box box constraint for the individual asset weights, see box_constraint
+        •long_only Special case to set min=0 and max=1 of box constraint
+        •group specify the sum of weights within groups and the number of assets with non-zero weights in groups,
+            see group_constraint
+        •turnover Specify a constraint for target turnover. Turnover is calculated from a set of initial weights,
+            see turnover_constraint
+        •diversification target diversification of asset of weights, see diversification_constraint
+        •position_limit Specify the number of non-zero,long, and/orshortpositions, see position_limit_constraint
+        •return Specify the target mean return, see return_constraint
+        •factor_exposure Specify risk factor exposures, see factor_exposure_constraint
+        •leverage_exposure Specify a maximum leverage exposure, see leverage_exposure_constraint
+        
+        Examples
+        --------
+        >>> portfolio = portfolio_spec(assets = 4)
+        >>> # adding weight_sum cinstraint
+        >>> add_constraint(portfolio, kind = 'weight_sum', min_sum = 0.9, max_sum = .95)
+        >>> # long_only is a special kind of box constraint where minimum and maximum is positive
+        >>> # minimum and maximum can be list or scalars
+        >>> add_constraint(portfolio, kind = 'box', minimum = [0.9, -0.5,-0.5, 0.1], maximum = 1)
+        >>> add_constraint(portfolio, kind = 'long_only')
+        
+        >>> # group constraint is used to specify min and max weights of certain asset_groups
+        >>> # groups must be a dict and group_min and group_max can be scalar or list
+        >>> add_constraint(portfolio, kind = 'group', group_min = [0.9, -0.5,-0.5, 0.1], group_max = 1,
+                      groups = {'eqity':[0,3], 'debt':[1,2]})
+        
+        >>> # adding weight_sum constraint
+        >>> add_constraint(portfolio, kind = 'weight_sum', min_sum = 0.9, max_sum = .95)
+        >>> # special case of weight_sum is dollar_neutral/active or full_investment
+        >>> add_constraint(portfolio, kind = 'dollar_neutral')
+        >>> add_constraint(portfolio, kind = 'full_investment')
+        
+        >>> #turnover constraint
+        >>> add_constraint(portfolio, kind = 'turnover', turnover_target = 0.1)
+        
+        >>> #diversification constraint for diversification target in a portfolio
+        >>> add_constraint(portfolio, kind = 'diversification', div_target = 0.1)
+        
+        
+        >>> #position_limit is a constraint to restrict max position and also max long/short positions
+        >>> add_constraint(portfolio, kind = 'position_limit', max_pos = 3, max_pos_long = 2, max_pos_short = 2)
+        
+        >>> #return constraint to add a target mean historical return to the portfolio
+        >>> add_constraint(portfolio, kind = 'return', return_target = 0.0018)
+        
+        >>> #adds a tranaction cost constraint on portfolio
+        >>> add_constraint(portfolio, kind = 'transaction_cost', ptc = 0.1)
+        
+        >>> #constraint on the leverage of portfolio
+        >>> add_constraint(portfolio, kind = 'leverage_exposure', leverage = 0.8)
+        
+        >>> #Factor_exposure constraint is used to test portfolio with their impact on certaint factors
+        >>> # factors can be single or multiple with lower and upper limit. 
+        >>> # B can be a N*K matrix for N assets and K factors.
+        >>> # lower and upper arguments can be float for single factor and list for multiple factors
+        >>> add_constraint(portfolio, kind = 'factor_exposure', 
+                      B = np.matrix([[1.2,1.3],
+                                     [2.3,1.4],
+                                     [1.4,0.9],
+                                     [3.4,1.2]]),
+                       lower = [0.8,1.4], upper = [2,2.4])
+    
+    add_objective(portfolio, kind, name, arguments=None, constraints=None, enabled=True, message=True, **kwargs)
+        This function is the primary function of adding and updating business goals in a portfolio.spec type object.
+        General interface, including risk, return, and risk budget, to add optimization goals.   
+        
+        Parameters
+        ----------
+        portfolio : portfolio_spec,
+                an object of class portfolio_spec. 
+        kind : str,
+            the character form of the goal to be added or changed, currently 'return',' risk',
+            ‘risk_budget',' quadratic_utility’, or ‘weight_concentration’. 
+        name : str,
+            The target name should correspond to a feature, although we will attempt to make allowances
+            arguments : Default arguments to be transferred when executed on an objective function.
+        enabled : bool, default = True
+            bool to enable or disable constraints.
+        message : bool, default = True
+            bool to enable or disable messages.
+        kwargs : additional key word arguments, optional
+            any additional constraint argument to be passed.
+        
+        
+        Returns
+        -------
+        Adds objective to object portfolio_spec of the specified input. 
+        
+        See Also
+        --------
+        add_objectives
+        portfolio_risk_objectives
+        risk_budget_objective
+        turnover_objective
+        minmax_objective
+        weight_constraint_objective
+        
+        Notes
+        -----
+        In general, you will define your objective as one of the following types:
+        ’return’, ’risk’, ’risk_budget’, or ’weight_concentration’.
+        
+        These have special handling and intelligent defaults for dealing with the function
+        most likely to be used as objectives, including mean, median, VaR, ES, etc.
+        Objectives of type ’turnover’ and ’minmax’ are also supported.
+        
+        Examples
+        --------
+        >>> port = portfolio_spec(assets = 5)
+        >>> import pandas_datareader as pdr
+        >>> aapl = pdr.get_data_yahoo('AAPL')
+        >>> msft = pdr.get_data_yahoo('MSFT')
+        >>> tsla = pdr.get_data_yahoo('TSLA')
+        >>> uber = pdr.get_data_yahoo('UBER')
+        >>> amzn = pdr.get_data_yahoo('AMZN')
+        >>> port = pd.DataFrame({'aapl': pd.DataFrame.reset_index(aapl).iloc[:,6], 'msft':pd.DataFrame.reset_index(msft).iloc[:,6],
+            'tsla': pd.DataFrame.reset_index(tsla).iloc[:,6], 'uber':pd.DataFrame.reset_index(uber).iloc[:,6],
+            'amzn': pd.DataFrame.reset_index(amzn).iloc[:,6]})
+        >>> port_ret = port.pct_change().dropna()
+        >>> R = port_ret
+        >>> add_constraint('long_only')
+        >>> add_constraint('full_investment')
+        >>> #adding objectives
+        >>> add_objective(kind = 'return', name = 'mean', target = 0.0018)
+        >>> add_objective(kind = 'portfolio_risk', name = 'std', target = 0.015)
+        >>> add_objective(kind = 'risk_budget', name = 'risk_budget')
+        >>> add_objective(kind = 'weight_conc', name = 'HHI', target = 0.11)
+        >>> add_objective(kind = 'performance_metrics', name = 'sharpe', target = 0.13)
+        >>> # add a custom objective by first defining it.
+        >>> def sortino_ratio(w,R):
+                #SOME CODE
+        >>> add_objective(kind = 'performance_metrics', name = {'sortino':sortino_ratio}, target = 0.35)
+        NOTE: The output of sortino_ratio or other custom function in objective must be a float.
+        NOTE: you can also add other custom function in other kind of objective in similar methd.
+    
+    box_constraint(assets, minimum, maximum, kind='box', enabled=True, message=True, **kwargs)
+        The box constraint defines the upper and lower limits of asset weights.
+        add_constraint calls this function when type=”box” is defined.
+        
+        Parameters
+        ----------
+        assets :  int, or array-like,
+                  number of assets, or optionally a named list of assets specifying initial weights.
+        minimum : float, or array-like,
+                  numeric or named list defining the minimum constraints of the weight box.
+        maximum : float, or array-like,
+                  numeric or named list defining the maximum constraints of the weight box.
+        kind :    str,
+                  string of kind of constraint.    
+        enabled : bool, default = True
+                  bool to enable or disable constraints.
+        message : bool, default = True
+                  bool to enable or disable messages.
+        kwargs :  additional key word arguments, optional
+                  any additional constraint argument to be passed.
+        
+        Returns
+        -------
+        Add box constraints to object portfolio_spec of the specified input. 
+        
+        See Also
+        --------
+        add_constraints
+        box_constraints
+        group_constraints
+        weight_sum_constraint
+        turnover_constraint
+        diversification_constraint
+        position_limit_constraint
+        return_constraint
+        factor_exposure_constraint
+        transaction_cost_constraint
+        leverage_exposure_constraint
+        
+        
+        Examples
+        --------
+        >>> add_constraint(portfolio, kind = 'box', minimum = [0.9, -0.5,-0.5, 0.1], maximum = 1)
+    
+    cVaR_portfolio(w, R, p=0.05, mean=True)
+        Calculate the conditional value at risk (cVaR) of a portfolio
+        
+        This function calculates the conditional value at risk (cVaR) assuming gaussian distribution
+        
+        Parameters
+        ----------
+        w : array-like,
+            list of weights of portfolio
+        R : pd.DataFrame object,
+            returns dataframe
+        p : float, optional
+            quantile estimate
+        mean : bool, default = True
+            mean VaR of portfolio
+            
+        Returns
+        -------
+        Calculates the VaR given portfolio weights
+        
+        See Also
+        --------
+        cVaR
+        VaR_portfolio
+        VaR
+            
+        Examples
+        --------
+        >>> w = [0.2,0.3,0.5]
+        >>> cVaR_portfolio(w,R,p = 0.01)
+    
+    chart_efficient_frontier(portfolio, R, metric='Sharpe Ratio', arguments={'rf': 0.0}, cml=False, rand_pf=300, optimize_method='DEoptim', alpha=0.4, figsize=(10, 6), **kwargs)
+        Function to plot efficient frontier of portfolio.
+        
+        Parameters
+        ----------
+        portfolio : portfolio_spec,
+            an object of class portfolio_spec.
+        R : pandas dataframe,
+            dataframe of the returns series
+        metric: str, default = 'Sharpe Ratio'
+            metric should be either of 'Sharpe Ratio' or 'Treynor Ratio'
+        arguments : dict, optional
+            additional arguments such as risk-free rate in the form of a dictionary.
+        cml : bool, default = False
+            bool to enable or disable capital market line
+        rand_pf : int, optional
+            random portfolio to plot to show the efficient frontier
+        optimize_method : str, optional
+            optimize_method should be similar to those in optimize_portfolio. see optimize_portfolio
+        alpha : float, optional
+            transparency
+        figsize : tuple, optional
+            figure size in the form of a tuple
+        kwargs : additional key word arguments, optional
+            any additional constraint argument to be passed.
+        
+        
+        Returns
+        -------
+        matplotlib.scatter
+        
+        See Also
+        --------
+        chart_group_weights
+        chart_weights
+        chart_efficient_frontier
+        
+        
+        Examples
+        --------
+        >>> # Rb is S&P500 benchmark for capital market line and beta for treynor ratio
+        >>> chart_efficient_froniter(portfolio, R, metric = 'Treynor Ratio', 
+            arguments = {'rf': 0.0008, 'Rb':Rb}, cml = True, alpha = 0.1, rand_pf = 1000, optimize_method = 'pso')
+    
+    chart_group_weights(portfolio)
+        Function to plot individual group weights of optimal weights.
+        
+        Parameters
+        ----------
+        portfolio : portfolio_spec,
+            an object of class portfolio_spec.  
+        
+        Returns
+        -------
+        matplotlib.lines.Line2D
+        
+        See Also
+        --------
+        chart_group_weights
+        chart_efficient_frontier
+        
+        
+        Examples
+        --------
+        >>> chart_group_weights(portfolio)
+        NOTE: chart_group_weights will only work after call optimize_portfolio on portfolio_spec
+    
+    chart_weights(portfolio)
+        Function to plot weights of optimal weights.
+        
+        Parameters
+        ----------
+        portfolio : portfolio_spec,
+            an object of class portfolio_spec.  
+        
+        Returns
+        -------
+        matplotlib.lines.Line2D
+        
+        See Also
+        --------
+        chart_group_weights
+        chart_efficient_frontier
+        
+        
+        Examples
+        --------
+        >>> chart_weights(portfolio)
+        NOTE: chart_group_weights will only work after call optimize_portfolio on portfolio_spec
+    
+    constrained_objective(w, R, portfolio, trace=False, normalize=False, storage=False, verbose=False, penalty=10000, *kwargs, **args)
+        Add a constraint in portfolio_spec object
+        
+        Main function to add or update constraint in portfolio_spec object
+        
+        Parameters
+        ----------
+        w : array-like,
+            weights to test
+        R : pd.DataFrame,
+            dataframe of returns of assets in portfolio
+        trace : bool, default = False
+            bool to enable or disable constraints.
+        normalize : bool, default = False
+            bool to specify if weights should be normalized first. see normalize_weights.
+        verbose : bool, default = False
+            bool to enable or disable verbose argument.
+        penalty : int, optional
+            int value specifying he penalty if constraint or objective is breached.
+        kwargs : additional key word arguments, optional
+            any additional constraint argument to be passed.
+        kwargs : additional arguments, optional
+            any additional argument to be passed.
+            
+            
+        Returns
+        -------
+        returns a float of total penalty given a weight. if trace = True, additional objective measure will be returned
+        in the form of dictionary.
+        
+        See Also
+        --------
+        rp_transform
+        optimize_portfolio
+        
+        Notes
+        -----
+        constrained_objective is the main function that is called by 
+        optimize_weights to optimze the constraint and objectives provided by the portfolio.
+        
+        Loosely speaking, constrained_objective is very similar to an information criteria.
+    
+    diversification(weights)
+        Diversification is stated as 1 minus the total of the squared weights
+        
+        Diversification function to compute as a constraint
+        
+        Parameters
+        ----------
+        weights : array-like,
+                list of weights of assets. 
+        
+        Returns
+        -------
+        returns diversification given the weights
+        
+        See Also
+        --------
+        turnover
+        
+        
+        Examples
+        --------
+        >>> w = [0.2,0.3,0.5]
+        >>> turnover(w)
+    
+    diversification_constraint(assets, div_target, kind='diversification', enabled=True, message=True)
+        Target diversification value is specified under the diversification constraint.
+        
+        This function is called by add.constraint when type=”diversification” is mentioned.
+        
+        Parameters
+        ----------
+        assets : Int, or array-like,
+                Number of assets or, as an alternative, a named asset list specifying initial weights.
+        div_target : float,
+                diversification target value
+        kind : str,
+                string of the kind of constraint.    
+        enabled : bool, default = True
+                bool to enable or disable constraints.
+        message : bool, default = True
+                bool to enable or disable messages.
+        
+        
+        Returns
+        -------
+        Adds diversification constraints to object portfolio_spec of the specified input. 
+        
+        See Also
+        --------
+        add_constraints
+        box_constraints
+        group_constraints
+        weight_sum_constraint
+        turnover_constraint
+        diversification_constraint
+        position_limit_constraint
+        return_constraint
+        factor_exposure_constraint
+        transaction_cost_constraint
+        leverage_exposure_constraint
+        
+           
+        Examples
+        --------
+        >>> #diversification constraint for diversification target in a portfolio
+        >>> add_constraint(portfolio, kind = 'diversification', div_target = 0.1)
+    
+    equal_weight(R, portfoio, **kwargs)
+        Function to extract objective measures of equal weight portfolio.
+        
+        Parameters
+        ----------
+        R : pd.DataFrame,
+            dataframe of returns of assets in portfolio
+        portfolio : portfolio_spec,
+            an object of class portfolio_spec.  
+        kwargs : additional arguments, optional
+            any additional argument to be passed.
+        
+        Returns
+        -------
+        dictionary of objective measures of equal weighted portfolio
+        
+        See Also
+        --------
+        inverse_volatility_weights 
+        
+        Examples
+        --------
+        >>> equal_weight(R, portfolio)
+    
+    extract_groups(portfolio)
+        Function to extract groups from portfolio_spec object.
+        
+        Parameters
+        ----------
+        portfolio : portfolio_spec,
+            an object of class portfolio_spec.  
+        
+        Returns
+        -------
+        dictionary of groups if group_constraint is specified.
+        
+        See Also
+        --------
+        extract_weights
+        extract_objective_measure
+        extract_groups
+        
+        Examples
+        --------
+        >>> extract_groups(portfolio)
+        NOTE: extract_groups will only work after calling optimize_portfolio on portfolio_spec
+    
+    extract_objective_measure(R, portfolio, **kwargs)
+        Function to extract objective measures of optimal weights.
+        
+        Parameters
+        ----------
+        R : pd.DataFrame,
+            dataframe of returns of assets in portfolio
+        portfolio : portfolio_spec,
+            an object of class portfolio_spec.  
+        kwargs : additional arguments, optional
+            any additional argument to be passed.
+        
+        Returns
+        -------
+        dictionary of objective measures as specified in the portfolio_spec object
+        
+        See Also
+        --------
+        extract_weights
+        extract_objective_measure
+        extract_groups
+        
+        Examples
+        --------
+        >>> extract_objective_measure(R, portfolio)
+        NOTE: extract_objective_measure will only work after calling optimize_portfolio on portfolio_spec
+    
+    extract_weights(portfolio)
+        Function to extract optimal weights.
+        
+        Parameters
+        ----------
+        portfolio : portfolio_spec,
+            an object of class portfolio_spec.  
+        
+        Returns
+        -------
+        array of optimal weights
+        
+        See Also
+        --------
+        extract_objective_measure
+        extract_groups
+        
+        Examples
+        --------
+        >>> extract_weights(portfolio)
+        NOTE: extract_weights will only work after calling optimize_portfolio on portfolio_spec
+    
+    factor_exposure_constraint(assets, B, lower, upper, kind='factor_exposure', enabled=True, message=False)
+        Add a factor exposure constraint for "K" different factos in a portdolio and also their exposure to 
+        particular asset.
+        
+        
+        Parameters
+        ----------
+        assets : int, or array-like,
+                named list of assets specifying initial weights.
+        B : matrix-like,
+            matrix or list of risk factor exposures
+        lower : int, or array-like
+            list of lower limits of risk factor exposure constraints.
+        upper : int, or array-like
+            list of upper limits of risk factor exposure constraints.
+        kind : str,
+            string of kind of constraints.    
+        enabled : bool, default = True
+            bool to enable or disable constraints.
+        message : bool, default = False
+            bool to enable or disable messages.
+        
+        
+        Returns
+        -------
+        Adds factor_exposure constraints to object portfolio_spec of the specified input. 
+        
+        See Also
+        --------
+        add_constraints
+        box_constraints
+        group_constraints
+        weight_sum_constraint
+        turnover_constraint
+        diversification_constraint
+        position_limit_constraint
+        return_constraint
+        factor_exposure_constraint
+        transaction_cost_constraint
+        leverage_exposure_constraint
+        
+        Examples
+        --------
+        >>> #Factor_exposure constraint is used to test portfolio with their impact on certaint factors
+        >>> # factors can be single or multiple with lower and upper limit. 
+        >>> # B can be a N*K matrix for N assets and K factors.
+        >>> # lower and upper arguments can be float for single factor and list for multiple factors
+        >>> add_constraint(portfolio, kind = 'factor_exposure', 
+                      B = np.matrix([[1.2,1.3],
+                                     [2.3,1.4],
+                                     [1.4,0.9],
+                                     [3.4,1.2]]),
+                       lower = [0.8,1.4], upper = [2,2.4])
+    
+    fn_map(weights, portfolio, relax=False, verbose=False)
+        This function transforms list of weights that does not meet the portfolio constraints to an array that meets
+        the constraints. relax argument (default = False) if True gives the function permission to transform weights 
+        if needed
+        
+        Parameters
+        ----------
+        weights : array-like,
+            list of initial weights.
+        portfolio : portfolio_spec,
+            an object of class portfolio_spec.
+        relax : bool, default = False
+            bool to enable or disable constraints.
+        verbose : bool, default = False
+            bool to enable or disable messages.
+        
+        
+        Returns
+        -------
+        returns the array of weights tranformed by the function and that does satisfy the constraints.
+        called by optimize_portfolio if optimize_method = 'DEoptim' or 'pso'
+    
+    generate_sequence(minimum=0.01, maximum=1.01, by=0.01, rounding=3)
+        The sequence of min<->max weights for random.
+        
+        Creating a series of potential weights for portfolios of random or brute force.
+        
+        Parameters
+        ----------
+        minimum : float,
+            sequence minimum value   
+        maximum : float,
+            sequence maximum value
+        by : float, optional
+            number to increase the series by
+        rounding : int, optional
+            integer the number of decimals we can round to
+        
+        Returns
+        -------
+        returns a series of ranfom weights that satisfy the min-max weights constraint. 
+        Default weight_seq for rp_transform
+    
+    get_constraints(portfolio)
+        Helper functionality to get the constraints allowed out of the portfolio object 
+        
+        Parameters
+        ----------
+        portfolio : portfolio_spec,
+                    an object of class portfolio_spec. 
+        
+        Returns
+        -------
+        returns dictionary of constraints extracted from the portfolio_spec object
+        
+        Examples
+        --------
+        >>> port = portfolio_spec(3)
+        >>> add_constraint('dollar_neutral')
+        >>> get_constraint(port)
+    
+    group_constraint(assets, groups, group_min, group_max, kind='group', enabled=True, message=False)
+        Group constraints determine the grouping of assets, group weights,
+        and the number of positions of the groups (i.e. non-zero weights).
+        
+        Parameters
+        ----------  
+        assets : Int, or array-like,
+                Number of assets or, as an alternative, a named asset list specifying initial weights.
+        groups : Dict, 
+                dictionary specifying the assets groups.
+        group_min : float, or array-like,
+                numeric or named list defining the minimum constraints of the weight group. 
+        group_max : float, or array-like,
+                numeric or named list defining the maximum constraints of the weight group.
+        kind : str,
+                string of kind of constraint.    
+        enabled : bool, default = True
+                bool to enable or disable constraints.
+        message : bool, default = False
+                bool to enable or disable messages.
+        
+        Returns
+        -------
+        Adds group constraints to object portfolio_spec of the specified input. 
+        
+        See Also
+        --------
+        add_constraints
+        box_constraints
+        group_constraints
+        weight_sum_constraint
+        turnover_constraint
+        diversification_constraint
+        position_limit_constraint
+        return_constraint
+        factor_exposure_constraint
+        transaction_cost_constraint
+        leverage_exposure_constraint
+        
+        
+        Examples
+        --------
+        >>> add_constraint(portfolio, kind = 'group', group_min = [0.9, -0.5,-0.5, 0.1], 
+            group_max =1, groups = {'eqity':[0,3], 'debt':[1,2]})
+    
+    group_fail(weights, groups=None, cLO=None, cUP=None, group_pos=None)
+        The role loops through each group and checks if the cLO or cUP for the given group has been breached.
+        This is a rp_transform helper feature.
+        Test if group limits have been breached.
+            
+        Parameters
+        ----------
+        weights : array-like,
+            test the list of weights
+        groups : dict,
+            A dictionary defining the asset classes. similar in group_constraint.
+        cLO : float, or array-like,
+            Specifying minimum weight group constraints by numeric or vector.
+        cUP : float, or array-like,
+            Specifying maximum weight group constraints by numeric or vector.
+        group_pos : array-like, optional
+            A list that defines the number of non-zero weights for each category.
+        
+        Returns
+        -------
+        Bool returning "True" if group weights are breached
+    
+    inverse_volatility_weights(R, portfoio, **kwargs)
+        Function to calculate objective_measure of inverse volatility portfolio
+        
+        Parameters
+        ----------
+        R : pd.DataFrame,
+            dataframe of returns of assets in portfolio
+        portfolio : portfolio_spec,
+            an object of class portfolio_spec.  
+        kwargs : additional arguments, optional
+            any additional argument to be passed.
+        
+        Returns
+        -------
+        dictionary of objective measures of inverse volatility portfolio
+        
+        See Also
+        --------
+        equal_weight
+        inverse_volatility_weight 
+        
+        Examples
+        --------
+        >>> inverse_volatility_weight(R, portfolio)
+    
+    leverage_exposure_constraint(assets, leverage, kind='leverage_exposure', enabled=True, message=True)
+        A maximum leverage where leverage is stated as the total of the absolute value of the weights
+        is determined under the leverage_exposure constraint.    
+        
+        Parameters
+        ----------
+        assets : int, or array-like,
+                leverage : maximum leverage value
+        kind : str,
+                string of kind of constraints    
+        enabled : bool, default = True
+                bool to enable or disable constraints.
+        message : bool, default = True
+                bool to enable or disable messages.
+        
+        
+        Returns
+        -------
+        Adds leverage_exposure constraints to object portfolio_spec of the specified input. 
+        
+        See Also
+        --------
+        add_constraints
+        box_constraints
+        group_constraints
+        weight_sum_constraint
+        turnover_constraint
+        diversification_constraint
+        position_limit_constraint
+        return_constraint
+        factor_exposure_constraint
+        transaction_cost_constraint
+        leverage_exposure_constraint
+        
+        
+        Examples
+        --------
+        >>> #constraint on the leverage of portfolio
+        >>> add_constraint(portfolio, kind = 'leverage_exposure', leverage = 0.8)
+    
+    leverage_fail(weights, leverage=None)
+          It is used by rp_transform as a helper function to test if leverage constraint is breached.
+          
+          Parameters
+          ----------
+          weights : array-like,
+              test the list of weights.
+          leverage : float,
+              specify the leverage the portfolio must satisfy
+          
+          Returns
+          -------
+          Returns "True" if the weights fail the leverage_exposure constraint. Called by rp_transform. see rp_transform.
+          
+          See Also
+          --------
+          pos_limit_fail
+            import numpy as np
+          import pandas as pd
+        
+        
+        rp_transform
+    
+    max_sum_fail(weights, max_sum=None)
+        it is used by rp_transform as a helper function to test if max_sum constraint is breached.
+        
+        Parameters
+        ----------
+        weights : array-like,
+            test the list of weights
+        max_sum : float, optional
+            max_sum of the weights of portfolio
+        
+        
+        Returns
+        -------
+        Returns "True" if the weights fail the max_sum constraint. Called by rp_transform. see rp_transform.
+        
+        See Also
+        --------
+        fn_map, rp_transform
+    
+    min_sum_fail(weights, min_sum=None)
+        it is used by rp_transform as a helper function to test if min_sum constraint is breached.
+        
+        Parameters
+        ----------
+        weights : array-like,
+            test the list of weights
+        min_sum : float, optional
+            max_sum of the weights of portfolio
+        
+        
+        Returns
+        -------
+        Returns "True" if the weights fail the min_sum constraint. Called by rp_transform. see rp_transform.
+        
+        See Also
+        --------
+        fn_map, rp_transform
+    
+    minmax_objective(name, minimum, maximum, multiplier=1, arguments=None, target=None, enabled=True)
+        This target allows to determine min and max goals.
+        Constructor for the tmp_minmax_objective.
+        
+        Parameters
+        ----------
+        name : str,
+            The target name should correspond to a feature, although we will attempt to make allowances.
+        minimum : float,
+            minimum value
+        maximum : float,
+            maximum value
+        multiplier : int, optional
+            Multiplier to be added to the target, typically 1 or -1.
+        arguments : dict,
+            Default arguments to be transferred when executed on an objective function.
+        target : float,
+            Univariate goal for the target.
+        enabled : bool, default = True
+            bool to enable or disable constraints.
+        
+        
+        Returns
+        -------
+        Adds minmax_objective to object portfolio_spec of the specified input. 
+        
+        See Also
+        --------
+        add_objectives
+        portfolio_risk_objectives
+        risk_budget_objective
+        turnover_objective
+        minmax_objective
+        weight_constraint_objective
+        
+        
+        Examples
+        --------
+        >>> port = portfolio_spec(assets = 5)
+        >>> import pandas_datareader as pdr
+        >>> aapl = pdr.get_data_yahoo('AAPL')
+        >>> msft = pdr.get_data_yahoo('MSFT')
+        >>> tsla = pdr.get_data_yahoo('TSLA')
+        >>> uber = pdr.get_data_yahoo('UBER')
+        >>> amzn = pdr.get_data_yahoo('AMZN')
+        >>> port = pd.DataFrame({'aapl': pd.DataFrame.reset_index(aapl).iloc[:,6], 'msft':pd.DataFrame.reset_index(msft).iloc[:,6],
+            'tsla': pd.DataFrame.reset_index(tsla).iloc[:,6], 'uber':pd.DataFrame.reset_index(uber).iloc[:,6],
+            'amzn': pd.DataFrame.reset_index(amzn).iloc[:,6]})
+        >>> port_ret = port.pct_change().dropna()
+        >>> R = port_ret
+        >>> add_constraint('long_only')
+        >>> add_constraint('full_investment')
+        >>> #adding objectives
+        >>> add_objective(kind = 'risk', name = 'std', target = 0.015)
+        NOTE: you can add other custom function in other kind of objective in similar methd. See add_objective
+    
+    normalize_weights(weights)
+        Add a constraint in portfolio_spec object
+        
+        Main function to add or update constraint in portfolio_spec object
+        
+        Parameters
+        ----------
+        weights : array-like,
+            list of weights to normalize based on constraints.
+        
+        Returns
+        -------
+        Returns array of normalized weights. Called be optimize_portfolio when optimize_method is:
+        'pso', 'dual_annealing', 'shgo', 'basinhopping', 'brute'.
+    
+    optimize_portfolio(R, portfolio=None, constraints=None, objectives=None, optimize_method=['pso', 'DEoptim', 'dual_annealing', 'brute', 'shgo', 'basinhopping', 'best'], search_size=20000, trace=False, message=False, **kwargs)
+        This function is calls the portfolio to optimize the weights given the constrained and objectives of portfolio
+        provided using add_constraint and add_objective functions.
+        
+        Main function to optimize portfolio weights given the constraints and objectives
+        
+        Parameters
+        ----------
+        R : pandas dataframe,
+            dataframe of the series of returns
+        portfolio : portfolio_spec,
+            an object of class portfolio_spec. 
+        constraints : dict, optional
+            constraints to be minimized/maximized given the assets. 
+            Although they are automatically called if portfolio_spec object has constraints specified
+        objectives : dict, optional
+            objectives to be minimized/maximized given the assets. 
+            Although they are automatically called if portfolio_spec object has objectives specified
+        optimize_method : float,
+            the method for optimizing portfolio. currently supported methods are:
+            'pso'
+            'DEoptim'
+            'dual_annealing'
+            'brute'
+            'shgo'
+            'basinhopping'
+            
+            User can also specify 'best' as optimize_method to use all optimizer and choose the best among them.
+        search_size: int, optional
+            specify th iterations to do before calling the best portfolio    
+        trace : bool, default = False
+            bool to enable or disable trace of portfolio.
+        message : bool, default = False
+            bool to enable or disable messages.
+        kwargs : additional key word arguments, optional
+            any additional constraint argument to be passed.
+        
+        
+        
+        Returns
+        -------
+        returns the optimal weights, objective measure, value of the best optimization (out). automatically adds weights
+        to the portfolio_spec objects.
+        
+        See Also
+        --------
+        portfolio_spec
+        add_constraint
+        add_objective
+        
+        Notes
+        -----
+        currently suuported optimization methods are:
+            'pso'
+            'DEoptim'
+            'dual_annealing'
+            'brute'
+            'shgo'
+            'basinhopping'
+            
+        The function calls constrained_objective to minimize the penalty (default = 10000) to come to a solution.
+        the purpose of adding different optimization method is to give flexibility to user to choose optimizer based on
+        specific problem.
+        
+        Additional arguments can be specified such as maxiter, disp and other controls. the argument names are similar in
+        scipy.optimize.[optimizer] or pyswarms. see scipy and pyswarm documentation.
+        
+        
+        Examples
+        --------
+        >>> port = portfolio_spec(assets = 5)
+        >>> import pandas_datareader as pdr
+        >>> aapl = pdr.get_data_yahoo('AAPL')
+        >>> msft = pdr.get_data_yahoo('MSFT')
+        >>> tsla = pdr.get_data_yahoo('TSLA')
+        >>> uber = pdr.get_data_yahoo('UBER')
+        >>> amzn = pdr.get_data_yahoo('AMZN')
+        >>> port = pd.DataFrame({'aapl': pd.DataFrame.reset_index(aapl).iloc[:,6], 'msft':pd.DataFrame.reset_index(msft).iloc[:,6],
+            'tsla': pd.DataFrame.reset_index(tsla).iloc[:,6], 'uber':pd.DataFrame.reset_index(uber).iloc[:,6],
+            'amzn': pd.DataFrame.reset_index(amzn).iloc[:,6]})
+        >>> port_ret = port.pct_change().dropna()
+        >>> R = port_ret
+        >>> add_constraint('long_only')
+        >>> add_constraint('full_investment')
+        >>> #adding objectives
+        >>> add_objective(kind = 'return', name = 'mean', target = 0.0018)
+        >>> add_objective(kind = 'portfolio_risk', name = 'std', target = 0.015)
+        >>> add_objective(kind = 'risk_budget', name = 'risk_budget')
+        >>> add_objective(kind = 'weight_conc', name = 'HHI', target = 0.11)
+        >>> add_objective(kind = 'performance_metrics', name = 'sharpe', target = 0.13)
+        >>> # add a custom objective by first defining it.
+        >>> def sortino_ratio(w,R):
+                #SOME CODE
+        >>> add_objective(kind = 'performance_metrics', name = {'sortino':sortino_ratio}, target = 0.35)
+        NOTE: The output of sortino_ratio or other custom function in objective must be a float.
+        NOTE: you can also add other custom function in other kind of objective in similar methd.
+        
+        >>> optimize_portfolio(R, port, optimize_method  = 'DEoptim', disp = False, search_size = 30000)
+        NOTE: Yout can provide addional adguments based on solver. See the solver documentation for more information.
+        >>> # we have used scipy.optimize for most of the solver and pyswarms for 'pso' method.
+        
+        >>> optimize_portfolio(R, port, optimize_method  = 'best', disp = False, maxiter = 1000)
+        NOTE: 'best' optimize_method takes a while to give ouput because it uses all other optimizers.
+    
+    performance_metrics_objective(name, arguments, target=None, multiplier=1, enabled=True)
+        We'll try minimizing the performance_metric if the target is null.    
+        Constructor for the portfolio_risk_objective class.
+        
+        Parameters
+        ----------
+        name : str,
+            The target name should correspond to a feature, although we will attempt to make allowances
+        target : float,
+            Univariate goal for the target.
+        arguments : dict, optional
+            Default arguments to be transferred when executed on an objective function.
+        multiplier : int, optional
+            Multiplier to be added to the target, typically 1 or -1.
+        enabled : bool, default = True
+            bool to enable or disable constraints.
+        
+        Returns
+        -------
+        Adds portfolio risk objectives to object portfolio_spec of the specified input. 
+        
+        See Also
+        --------
+        add_objectives
+        portfolio_risk_objectives
+        risk_budget_objective
+        turnover_objective
+        minmax_objective
+        weight_constraint_objective
+        
+        
+        Examples
+        --------
+        >>> port = portfolio_spec(assets = 5)
+        >>> import pandas_datareader as pdr
+        >>> aapl = pdr.get_data_yahoo('AAPL')
+        >>> msft = pdr.get_data_yahoo('MSFT')
+        >>> tsla = pdr.get_data_yahoo('TSLA')
+        >>> uber = pdr.get_data_yahoo('UBER')
+        >>> amzn = pdr.get_data_yahoo('AMZN')
+        >>> port = pd.DataFrame({'aapl': pd.DataFrame.reset_index(aapl).iloc[:,6], 'msft':pd.DataFrame.reset_index(msft).iloc[:,6],
+            'tsla': pd.DataFrame.reset_index(tsla).iloc[:,6], 'uber':pd.DataFrame.reset_index(uber).iloc[:,6],
+            'amzn': pd.DataFrame.reset_index(amzn).iloc[:,6]})
+        >>> port_ret = port.pct_change().dropna()
+        >>> R = port_ret
+        >>> add_constraint('long_only')
+        >>> add_constraint('full_investment')
+        >>> #adding objectives
+        >>> add_objective(kind = 'performance_metrics', name = 'sharpe', target = 0.13)
+        >>> # add a custom objective by first defining it.
+        >>> def sortino_ratio(w,R):
+                #SOME CODE
+                
+        >>> add_objective(kind = 'performance_metrics', name = {'sortino':sortino_ratio}, target = 0.35)
+        NOTE: The output of sortino_ratio or other custom function in objective must be a float.
+        NOTE: you can also add other custom function in other kind of objective in similar methd.
+    
+    port_mean(weights, mu)
+        Add a constraint in portfolio_spec object
+        Main function to add or update constraint in portfolio_spec object
+        
+        Parameters
+        ----------
+        weights : array-like,
+            weights of the portfolio.
+        mu : array-like,
+            mean return of assets
+        
+        Returns
+        -------
+        Adds port mean to object portfolio_spec of the specified input. 
+        
+        Notes
+        -----
+        
+        \mu_{p} = w . \mu_{r}
+        
+        
+        
+        See Also
+        --------
+        var_portfolio
+        VaR
+        cVaR
+        
+        
+        Examples
+        --------
+        >>> #calculate the portfolio mean return
+        >>> w = [0.2,0.3,-0.1,0.6,0.8]
+        >>> port_mean(w,R)
+    
+    portfolio_risk_objective(name, target, arguments, multiplier=-1, enabled=True)
+        We'll try minimizing the risk metric if the target is null.    
+        Constructor for the portfolio_risk_objective class.
+        
+        Parameters
+        ----------
+        name : str,
+            The target name should correspond to a feature, although we will attempt to make allowances
+        target : float,
+            Univariate goal for the target.
+        arguments : dict, optional
+            Default arguments to be transferred when executed on an objective function.
+        multiplier : int, optional
+            Multiplier to be added to the target, typically 1 or -1.
+        enabled : bool, default = True
+            bool to enable or disable constraints.
+        
+        
+        Returns
+        -------
+        Adds portfolio risk objectives to object portfolio_spec of the specified input. 
+        
+        See Also
+        --------
+        
+        add_objectives
+        portfolio_risk_objectives
+        risk_budget_objective
+        turnover_objective
+        minmax_objective
+        weight_constraint_objective
+        
+        
+        Examples
+        --------
+        >>> port = portfolio_spec(assets = 5)
+        >>> import pandas_datareader as pdr
+        >>> aapl = pdr.get_data_yahoo('AAPL')
+        >>> msft = pdr.get_data_yahoo('MSFT')
+        >>> tsla = pdr.get_data_yahoo('TSLA')
+        >>> uber = pdr.get_data_yahoo('UBER')
+        >>> amzn = pdr.get_data_yahoo('AMZN')
+        >>> port = pd.DataFrame({'aapl': pd.DataFrame.reset_index(aapl).iloc[:,6], 'msft':pd.DataFrame.reset_index(msft).iloc[:,6],
+            'tsla': pd.DataFrame.reset_index(tsla).iloc[:,6], 'uber':pd.DataFrame.reset_index(uber).iloc[:,6],
+            'amzn': pd.DataFrame.reset_index(amzn).iloc[:,6]})
+        >>> port_ret = port.pct_change().dropna()
+        >>> R = port_ret
+        >>> add_constraint('long_only')
+        >>> add_constraint('full_investment')
+        >>> #adding objectives
+        >>> add_objective(kind = 'portfolio_risk', name = 'std', target = 0.015)
+        >>> # add a custom objective by first defining it.
+        >>> def sortino_ratio(w,R):
+                #SOME CODE
+        >>> add_objective(kind = 'performance_metrics', name = {'sortino':sortino_ratio}, target = 0.35)
+        NOTE: The output of sortino_ratio or other custom function in objective must be a float.
+        NOTE: you can also add other custom function in other kind of objective in similar methd.
+    
+    pos_limit_fail(weights, max_pos=None, max_pos_long=None, max_pos_short=None)
+        This is used as a rp_transform helper function to search for position limit constraints being violated.       
+        
+        Parameters
+        ----------
+        
+        weights : array-like,
+            test list of weights.
+        max_pos : int, optional
+            maximum number of non-zero-weighted assets
+        max_pos_long : int, optional
+            maximum number of long-position assets
+        max_pos_short : int, optional
+            maximum number of short-position assets
+        
+        
+        Returns
+        -------
+        Returns "True" if the weights fail the pos_limit constraint. called by rp_transform. see rp_transform.
+    
+    position_limit_constraint(assets, max_pos=None, kind='position', max_pos_long=None, max_pos_short=None, enabled=True, message=True)
+            When type=”position_limit” is mentioned, this function is called by add.constraint. 
+        
+            The maximum number of positions as well as the maximum number of long and short positions
+            are determined by the user using this function.
+            
+            Parameters
+            ----------
+            assets : int, or array-like,
+                    named list of assets determining initial weights.
+            max_pos : int,
+                    maximum number of assets with non-zero weights.
+            kind : str,
+                    string of kind of constraint
+            max_pos_long : Int, optional
+                    maximum number of assets with long positions.
+            max_pos_short : Int, optional
+                    maximum number of assets with short positions.
+            enabled : bool, default = True
+                    bool to enable or disable constraints.
+            message : bool, default = True
+                    bool to enable or disable messages.
+           
+            
+            Returns
+            -------
+            Adds position_limit constraints to object portfolio_spec of the specified input. 
+            
+            See Also
+            --------
+            add_constraints
+            box_constraints
+            group_constraints
+            weight_sum_constraint
+            turnover_constraint
+            diversification_constraint
+            position_limit_constraint
+            return_constraint
+            factor_exposure_constraint
+            transaction_cost_constraint
+            leverage_exposure_constraint
+        
+                
+            Examples
+            --------
+        >>> #position_limit is a constraint to restrict max position and also max long/short positions
+        >>> add_constraint(portfolio, kind = 'position_limit', max_pos = 3, max_pos_long = 2, max_pos_short = 2)
+    
+    return_constraint(assets, return_target, kind='return', enabled=True, message=False)
+        Target mean return value is determined by the return constraint. 
+        When type=”return” is mentioned, this function is called by add_constraint.
+        
+        Parameters
+        ----------
+        assets :. int, or array-like,
+                named list of assets determining initial weights.
+        kind : str,
+                string of kind of constraints.    
+        enabled : bool, default = True
+                bool to enable or disable constraints.
+        messages : bool, default = False
+                bool to enable or disable messages.
+        
+        Returns
+        -------
+        Adds return constraints to object portfolio_spec of the specified input. 
+        
+        See Also
+        --------
+        
+        add_constraints
+        box_constraints
+        group_constraints
+        weight_sum_constraint
+        turnover_constraint
+        diversification_constraint
+        position_limit_constraint
+        return_constraint
+        factor_exposure_constraint
+        transaction_cost_constraint
+        leverage_exposure_constraint
+        
+        
+        Examples
+        --------
+        >>> #return constraint to add a target mean historical return to the portfolio
+        >>> add_constraint(portfolio, kind = 'return', return_target = 0.0018)
+    
+    return_objective(name, target, arguments, multiplier=-1, enabled=True)
+        We'll try minimizing the risk metric if the target is null.    
+        Constructor for the portfolio_risk_objective class.
+        
+        Parameters
+        ----------
+        name : str,
+            The target name should correspond to a feature, although we will attempt to make allowances
+        target : float,
+            Univariate goal for the target.
+        arguments : dict, optional
+            Default arguments to be transferred when executed on an objective function.
+        multiplier : int, optional
+            Multiplier to be added to the target, typically 1 or -1.
+        enabled : bool, default = True
+            bool to enable or disable constraints.
+        
+        Returns
+        -------
+        Adds return_objective to object portfolio_spec of the specified input. 
+        
+        See Also
+        --------
+        add_objectives
+        portfolio_risk_objectives
+        risk_budget_objective
+        turnover_objective
+        minmax_objective
+        weight_constraint_objective
+        
+        
+        Examples
+        --------
+        >>> port = portfolio_spec(assets = 5)
+        >>> import pandas_datareader as pdr
+        >>> aapl = pdr.get_data_yahoo('AAPL')
+        >>> msft = pdr.get_data_yahoo('MSFT')
+        >>> tsla = pdr.get_data_yahoo('TSLA')
+        >>> uber = pdr.get_data_yahoo('UBER')
+        >>> amzn = pdr.get_data_yahoo('AMZN')
+        >>> port = pd.DataFrame({'aapl': pd.DataFrame.reset_index(aapl).iloc[:,6], 'msft':pd.DataFrame.reset_index(msft).iloc[:,6],
+            'tsla': pd.DataFrame.reset_index(tsla).iloc[:,6], 'uber':pd.DataFrame.reset_index(uber).iloc[:,6],
+            'amzn': pd.DataFrame.reset_index(amzn).iloc[:,6]})
+        >>> port_ret = port.pct_change().dropna()
+        >>> R = port_ret
+        >>> add_constraint('long_only')
+        >>> add_constraint('full_investment')
+        >>> #adding objectives
+        >>> add_objective(kind = 'return', name = 'mean', target = 0.0018)
+        >>> # add a custom objective by first defining it.
+        >>> def sortino_ratio(w,R):
+                #SOME CODE
+        >>> add_objective(kind = 'performance_metrics', name = {'sortino':sortino_ratio}, target = 0.35)
+        NOTE: The output of sortino_ratio or other custom function in objective must be a float.
+        NOTE: you can also add other custom function in other kind of objective in similar methd.
+    
+    risk_budget_objective(assets, name, min_prisk=None, max_prisk=None, target=None, arguments=None, multiplier=1, enabled=True, min_concentration=False, min_difference=False)
+         Constructor for the risk_budget_objective.
+         
+         Parameters
+         ----------
+         assets : int, or array-like,
+             The asset list to be used should come from object constraints.
+         name : str,
+             The target name should correspond to a feature, although we will attempt to make allowances.
+         min_prisk : float,
+             minimum percentage risk contribution
+         max_prisk : float,
+             maximum percentage risk contribution
+         arguments : dict, optional
+             Default arguments to be transferred when executed on an objective function.
+         multiplier : int, optional
+             Multiplier to be added to the target, typically 1 or -1.
+        
+         
+         Returns
+         -------
+         Adds risk budget objective to object portfolio_spec of the specified input. 
+         
+         See Also
+         --------
+         add_objectives
+         portfolio_risk_objectives
+         risk_budget_objective
+         turnover_objective
+         minmax_objective
+         weight_constraint_objective
+         
+        Examples
+         --------
+         >>> port = portfolio_spec(assets = 5)
+         >>> import pandas_datareader as pdr
+         >>> aapl = pdr.get_data_yahoo('AAPL')
+         >>> msft = pdr.get_data_yahoo('MSFT')
+         >>> tsla = pdr.get_data_yahoo('TSLA')
+         >>> uber = pdr.get_data_yahoo('UBER')
+         >>> amzn = pdr.get_data_yahoo('AMZN')
+         >>> port = pd.DataFrame({'aapl': pd.DataFrame.reset_index(aapl).iloc[:,6], 'msft':pd.DataFrame.reset_index(msft).iloc[:,6],
+             'tsla': pd.DataFrame.reset_index(tsla).iloc[:,6], 'uber':pd.DataFrame.reset_index(uber).iloc[:,6],
+             'amzn': pd.DataFrame.reset_index(amzn).iloc[:,6]})
+         >>> port_ret = port.pct_change().dropna()
+         >>> R = port_ret
+         >>> add_constraint('long_only')
+         >>> add_constraint('full_investment')
+         >>> #adding objectives
+         >>> add_objective(kind = 'risk_budget', name = 'risk_budget')
+         >>> add_objective(kind = 'weight_conc', name = 'HHI', target = 0.11)
+         >>> add_objective(kind = 'performance_metrics', name = 'sharpe', target = 0.13)
+         >>> # add a custom objective by first defining it.
+         >>> def sortino_ratio(w,R):
+                 #SOME CODE
+         >>> add_objective(kind = 'performance_metrics', name = {'sortino':sortino_ratio}, target = 0.35)
+         NOTE: The output of sortino_ratio or other custom function in objective must be a float.
+         NOTE: you can also add other custom function in other kind of objective in similar methd.
+    
+    rp_decrease(weights, max_sum, min_box, weight_seq)
+        It is used by rp_transform as a helper function to reduce weights if 
+        max_sum or min_box constraint is breached.
+        
+        Parameters
+        ----------
+        weights : array-like,
+            test of list of weights
+        max_sum : float,
+            maximum sum of weights
+        min_box : array-like,
+            minimum of individual weights in a portfolio
+        weight_seq : seq,
+            sequence of random weights to choose from
+        
+        
+        Returns
+        -------
+        returns an array of weights that satisfy the max_sum and min_box constraint. called by rp_transform.
+        
+        
+        See Also
+        --------
+        rp_increase
+        rp_transform
+    
+    rp_decrease_leverage(weights, max_box, min_box, leverage, weight_seq)
+        It is used by rp_transform as a helper function to redcrese leverage if 
+        leverage_exposure constraint is breached.
+        
+        Parameters
+        ----------
+        weights : array-like,
+            test of list of weights
+        max_box : array-like,
+            maximum of individual weights in a portfolio
+        min_box : like,
+            minimum of individual weights in a portfolio
+        leverage: float,
+            leverage as specified in leverage_exposure constraints
+        weight_seq : seq,
+            sequence of random weights to choose from
+        
+        
+        Returns
+        -------
+        returns an array of weights that satisfy the leverage constraint. called by rp_transform.
+        
+        
+        See Also
+        --------
+        rp_increase
+        rp_transform
+    
+    rp_increase(weights, min_sum, max_box, weight_seq)
+        It is used by rp_transform as a helper function to increase weights if 
+        min_sum or max_box constraint is breached.
+        
+        Parameters
+        ----------
+        weights : array-like,
+            test of list of weights
+        max_sum : float,
+            maximum sum of weights
+        min_box : float,
+            minimum of individual weights in a portfolio
+        weight_seq : seq,
+            sequence of random weights to choose from
+        
+        
+        Returns
+        -------
+        returns an array of weights that satisfy the max_sum and min_box constraint. called by rp_transform.
+        
+        
+        See Also
+        --------
+        rp_increase
+        rp_transform
+    
+    rp_position_limit(weights, min_box, max_box, weight_seq, max_pos=None, max_pos_long=None, max_pos_short=None)
+        It is used by rp_transform as a helper function to increase weights if 
+        position_limit constraint is breached.
+        
+        Parameters
+        ----------
+        weights : array-like,
+            test of list of weights
+        min_box : array-like,
+            maximum of individual weights in a portfolio
+        min_box : array-like,
+            minimum of individual weights in a portfolio
+        max_pos : int, optional
+            maximum position to hold in a portfolio
+        max_pos_long : int, optional
+            maximum long position to hold in a portfolio
+        max_pos_short : int, optional
+            maximum short position to hold in a portfolio
+        weight_seq : seq,
+            sequence of random weights to choose from
+        
+        
+        Returns
+        -------
+        returns an array of weights that satisfy the position limit constraint. called by rp_transform.
+        
+        
+        See Also
+        --------
+        rp_increase
+        rp_transform
+        rp_decrease_leverage
+    
+    rp_transform(w, min_sum, max_sum, min_box, max_box, groups=None, cLO=None, cUP=None, group_pos=None, max_pos=None, max_pos_long=None, max_pos_short=None, leverage=None, weight_seq=None, max_permutations=2000)
+        This function is mainly used to transform weights that dont satisfy the constraints such as:
+        "box"
+        "group"
+        "max_pos"
+        "leverage_exposure"
+        See add_constraint for more deatils.
+        
+        Transform a list of weights to fulfill constraints
+        
+        Parameters
+        ----------
+        weights : array-like,
+            list of weights to be transformed
+        min_sum : float,
+            minimum total of all weights of assets, default of 0.99
+        max_sum : float,
+            maximum total of all weights of assets, default of 1.01
+        min_box : array-like,
+            numeric or called list defining the minimum constraints of the weight box
+        max_box : array-like
+            numeric or called list defining the maximum constraints of the weight box
+        groups : dict, 
+            a dictionary defining the asset groups. similar to group_constraint. see group_constraint
+        cLO : flaot, or array-like,
+            float or list defining the minimum constraints of the weight group
+        cUP : float, or array-like
+            float or list defining the minimum constraints of the weight group
+        group_pos : array-like, optional
+            list that specifies the maximum number of non-zero-weight assets per group
+        max_pos : int,
+            maximum non-zero-weight assets
+        max_pos_long : int
+            maximum number of long (i. e. buy) position assets
+        max_pos_short : int,
+            maximum number of short (i. e. sell) position assets
+        leverage : float,
+            maximum exposure to leverage in which leverage is defined as sum(abs(weights))
+        weight_seq : seq, optional
+            list of seed sequence of weights. uses generate_sequence()
+        max_permutations : int, optional
+            integer- maximum number of iterations to try for a portfolio which is valid, default 2000
+        
+        Returns
+        -------
+        weights array that satisfy the constraints on portfolio
+        
+        See Also
+        --------
+        rp_increase
+        rp_decrease
+        fn_map
+    
+    transaction_cost_constraint(assets, ptc, kind='transaction', enabled=True, message=True)
+        A proportional cost value is determined under the transaction cost constraint.
+        When type=”transaction_cost” is specified, this function is called by add.constraint.
+        
+        Parameters
+        ----------
+        assets : int, or array-like,
+                number of assets, or optionally a named list of assets determining initial weights.
+        ptc : float,
+                proportional transaction cost value.  
+        kind : str,
+                string of kind of constraint 
+        enabled : bool, default = True
+                bool to enable or disable constraints.
+        message : bool, default = True
+                bool to enable or disable messages.
+        
+        
+        Returns
+        -------
+        Adds transaction _cost constraints to object portfolio_spec of the specified input. 
+        
+        See Also
+        --------
+        add_constraints
+        box_constraints
+        group_constraints
+        weight_sum_constraint
+        turnover_constraint
+        diversification_constraint
+        position_limit_constraint
+        return_constraint
+        factor_exposure_constraint
+        transaction_cost_constraint
+        leverage_exposure_constraint
+        
+        
+        Examples
+        --------
+        >>> #adds a tranaction cost constraint on portfolio
+        >>> add_constraint(portfolio, kind = 'transaction_cost', ptc = 0.1)
+    
+    turnover(weights, wgt_init=None)
+        Turnover estimation of two weight lists.
+        This is used as an objective function and is named when the user adds with add.objective 
+        an objective of type turnover.
+        
+        Parameters
+        ----------
+        weights : array-like,
+            Weights list from optimization.
+        wgt_init : array-like, optional
+            Initial weights list used for measuring turnover from.
+        
+        Returns
+        -------
+        returns the turnover of the portfolio given the weights
+        
+        See Also
+        --------
+        var_portfolio
+        port_mean
+            
+        Examples
+        --------
+        >>> port = portfolio_spec(assets = 5)
+        >>> import pandas_datareader as pdr
+        >>> aapl = pdr.get_data_yahoo('AAPL')
+        >>> msft = pdr.get_data_yahoo('MSFT')
+        >>> tsla = pdr.get_data_yahoo('TSLA')
+        >>> uber = pdr.get_data_yahoo('UBER')
+        >>> amzn = pdr.get_data_yahoo('AMZN')
+        >>> port = pd.DataFrame({'aapl': pd.DataFrame.reset_index(aapl).iloc[:,6], 'msft':pd.DataFrame.reset_index(msft).iloc[:,6],
+            'tsla': pd.DataFrame.reset_index(tsla).iloc[:,6], 'uber':pd.DataFrame.reset_index(uber).iloc[:,6],
+            'amzn': pd.DataFrame.reset_index(amzn).iloc[:,6]})
+        >>> port_ret = port.pct_change().dropna()
+        >>> R = port_ret
+        >>> w = [0.2,0.3,0.4,-.4,0.5]
+        >>> turnover(w)
+    
+    turnover_constraint(assets, turnover_target, kind='turnover', enabled=True, message=True)
+            Target turnover value is determined under the turnover constraint. 
+            When type=”turnover” is stated, the function is called by add.constraint
+           
+            Parameters
+            ----------
+            asset : Int, or array-like,
+                    Number of assets or, as an alternative, a named asset list specifying initial weights.
+            kind :  str,
+                    character kind of the constraint.    
+            enabled : bool, default = True
+                    bool to enable or disable constraints.
+            message : bool, default = True
+                    bool to enable or disable messages.
+            
+            Returns
+            -------
+            Adds  turnover constraints to object portfolio_spec of the specified input. 
+            
+            See Also
+            --------
+            add_constraints
+            box_constraints
+            group_constraints
+            weight_sum_constraint
+            turnover_constraint
+            diversification_constraint
+            position_limit_constraint
+            return_constraint
+            factor_exposure_constraint
+            transaction_cost_constraint
+            leverage_exposure_constraint
+        
+               
+            Examples
+            --------
+        >>> #turnover constraint
+        >>> add_constraint(portfolio, kind = 'turnover', turnover_target = 0.1)
+    
+    turnover_objective(name, arguments, target=None, multiplier=1, enabled=True)
+        We'll try minimizing the turnover metric if the goal is null.    
+        Constructor for the turnover_objective class.
+        
+        Parameters
+        ----------
+        name : str,
+            The target name should correspond to a feature, although we will attempt to make allowances.
+        arguments : dict,
+            Default arguments to be transferred when executed on an objective function.
+        target : float,
+            Univariate goal for the target.
+        multiplier : int, optional
+            Multiplier to be added to the target, typically 1 or -1.  
+        enabled : bool, default = True
+            bool to enable or disable constraints.
+        
+        
+        
+        Returns
+        -------
+        Adds turnover_objective to object portfolio_spec of the specified input. 
+        
+        See Also
+        --------
+        add_objectives
+        portfolio_risk_objectives
+        risk_budget_objective
+        turnover_objective
+        minmax_objective
+        weight_constraint_objective
+        
+        
+        Examples
+        --------
+        >>> port = portfolio_spec(assets = 5)
+        >>> import pandas_datareader as pdr
+        >>> aapl = pdr.get_data_yahoo('AAPL')
+        >>> msft = pdr.get_data_yahoo('MSFT')
+        >>> tsla = pdr.get_data_yahoo('TSLA')
+        >>> uber = pdr.get_data_yahoo('UBER')
+        >>> amzn = pdr.get_data_yahoo('AMZN')
+        >>> port = pd.DataFrame({'aapl': pd.DataFrame.reset_index(aapl).iloc[:,6], 'msft':pd.DataFrame.reset_index(msft).iloc[:,6],
+            'tsla': pd.DataFrame.reset_index(tsla).iloc[:,6], 'uber':pd.DataFrame.reset_index(uber).iloc[:,6],
+            'amzn': pd.DataFrame.reset_index(amzn).iloc[:,6]})
+        >>> port_ret = port.pct_change().dropna()
+        >>> R = port_ret
+        >>> add_constraint('long_only')
+        >>> add_constraint('full_investment')
+        >>> #adding objectives
+        >>> 
+        >>> add_objective(kind = 'turnover', name = 'turnover', target = 0.2)
+        >>> add_objective(kind = 'performance_metrics', name = 'sharpe', target = 0.13)
+        >>> # add a custom objective by first defining it.
+        >>> def sortino_ratio(w,R):
+                #SOME CODE
+        >>> add_objective(kind = 'performance_metrics', name = {'sortino':sortino_ratio}, target = 0.35)
+        NOTE: The output of sortino_ratio or other custom function in objective must be a float.
+        NOTE: you can also add other custom function in other kind of objective in similar methd.
+    
+    var_portfolio(R, weights)
+        When var is an object for mean variance or quadratic utility optimization,
+        this function is used to measure the portfolio variance through a call to constrained_objective.
+        
+        Main function to calculate portfolio variance
+        
+        Parameters
+        ----------
+        R : pd.DataFrame,
+            return series
+        weights: array-like,
+            list of weights of assets.
+        
+        Returns
+        -------
+        returns the variance of the portfolio given the following weights.
+        
+        Notes
+        -----
+        
+        \sigma_{p} = w \Sigma_{p} w^{T}
+        
+        See Also
+        --------
+        port_mean
+        VaR
+        cVaR
+        
+        
+        Examples
+        --------
+        >>> # calculate the variance of portfolio
+        >>> import pandas_datareader as pdr
+        >>> aapl = pdr.get_data_yahoo('AAPL')
+        >>> msft = pdr.get_data_yahoo('MSFT')
+        >>> tsla = pdr.get_data_yahoo('TSLA')
+        >>> uber = pdr.get_data_yahoo('UBER')
+        >>> amzn = pdr.get_data_yahoo('AMZN')
+        >>> port = pd.DataFrame({'aapl': pd.DataFrame.reset_index(aapl).iloc[:,6], 'msft':pd.DataFrame.reset_index(msft).iloc[:,6],
+            'tsla': pd.DataFrame.reset_index(tsla).iloc[:,6], 'uber':pd.DataFrame.reset_index(uber).iloc[:,6],
+            'amzn': pd.DataFrame.reset_index(amzn).iloc[:,6]})
+        >>> port_ret = port.pct_change().dropna()
+        >>> R = port_ret
+        >>> w = [0.2,0.3,-0.1,0.6,0.8]
+        >>> var_portfolio(w,R)
+    
+    weight_concentration_objective(name, conc_aversion, conc_groups=None, multiplier=1, arguments=None, enabled=True)
+        Using the HHI as a concentration scale, this feature penalizes weight concentration
+        Constructor for objective of weight concentration.
+        
+        Parameters
+        ----------
+        name : str,
+            The name of the concentration measure is currently only supported by "HHI".
+        conc_aversion : float,
+            concentration value(s) of aversion
+        conc_groups : dict,
+            A dictionary defining the asset classes. Similar to 'group constraint' groups.
+        multiplier : int, optional
+            Multiplier to be added to the target, typically 1 or -1.
+        arguments : dict, optional
+            Default arguments to be transferred when executed on an objective function.
+        enabled : bool, default = True
+            bool to enable or disable constraints.
+        
+        
+        Returns
+        -------
+        Adds weight constraints objective to object portfolio_spec of the specified input. 
+        
+        See Also
+        --------
+        add_objectives
+        portfolio_risk_objectives
+        risk_budget_objective
+        turnover_objective
+        minmax_objective
+        weight_constraint_objective
+        
+        Examples
+        --------
+        >>> port = portfolio_spec(assets = 5)
+        >>> import pandas_datareader as pdr
+        >>> aapl = pdr.get_data_yahoo('AAPL')
+        >>> msft = pdr.get_data_yahoo('MSFT')
+        >>> tsla = pdr.get_data_yahoo('TSLA')
+        >>> uber = pdr.get_data_yahoo('UBER')
+        >>> amzn = pdr.get_data_yahoo('AMZN')
+        >>> port = pd.DataFrame({'aapl': pd.DataFrame.reset_index(aapl).iloc[:,6], 'msft':pd.DataFrame.reset_index(msft).iloc[:,6],
+            'tsla': pd.DataFrame.reset_index(tsla).iloc[:,6], 'uber':pd.DataFrame.reset_index(uber).iloc[:,6],
+            'amzn': pd.DataFrame.reset_index(amzn).iloc[:,6]})
+        >>> port_ret = port.pct_change().dropna()
+        >>> R = port_ret
+        >>> add_constraint('long_only')
+        >>> add_constraint('full_investment')
+        >>> add_objective(kind = 'weight_conc', name = 'HHI', target = 0.11)
+        >>> add_objective(kind = 'performance_metrics', name = 'sharpe', target = 0.13)
+        >>> # add a custom objective by first defining it.
+        >>> def sortino_ratio(w,R):
+                #SOME CODE
+                
+        >>> add_objective(kind = 'performance_metrics', name = {'sortino':sortino_ratio}, target = 0.35)
+        NOTE: The output of sortino_ratio or other custom function in objective must be a float.
+        NOTE: you can also add other custom function in other kind of objective in similar methd.
+    
+    weight_sum_constraint(assets, kind='weight_sum', min_sum=0.99, max_sum=1.01, enabled=True, message=True)
+        The constraint determines the sum of the weights of the upper and lower limits.
+        This function is called add.constraint when the type is defined as "weight sum", 
+        "leverage", "full investment", "dollar neutral" or "active"
+        
+        Parameters
+        ----------
+        assets : Int, or array-like,
+                Number of assets or, as an alternative, a named asset list specifying initial weights.
+        kind : str,
+                character kind of the constraint.
+        min_sum : float,
+                Minimum sum of all weights of assets, default 0.99
+        max_sum : float, 
+                Maximum sum of all weights of assets, default 1.01    
+        enabled : bool, default = True
+                bool to enable or disable constraints.
+        message : bool, default = True
+                bool to enable or disable messages.  
+        
+        
+        Returns
+        -------
+        Adds weight_sum constraint to object portfolio_spec of the specified input. 
+        
+        See Also
+        --------
+        add_constraints
+        box_constraints
+        group_constraints
+        weight_sum_constraint
+        turnover_constraint
+        diversification_constraint
+        position_limit_constraint
+        return_constraint
+        factor_exposure_constraint
+        transaction_cost_constraint
+        leverage_exposure_constraint
+        
+        
+        Examples
+        --------
+        
+        >>> # adding weight_sum constraint
+        >>> add_constraint(portfolio, kind = 'weight_sum', min_sum = 0.9, max_sum = .95)
+        >>> # special case of weight_sum is dollar_neutral/active or full_investment
+        >>> add_constraint(portfolio, kind = 'dollar_neutral')
+        >>> add_constraint(portfolio, kind = 'full_investment')
+
+
