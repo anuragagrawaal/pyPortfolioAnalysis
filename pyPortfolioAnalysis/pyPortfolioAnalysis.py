@@ -192,6 +192,9 @@ class black_litterman:
     """
         import numpy as np
         import pandas as pd
+        import math as math
+        import random
+    
 
 
         if Mu == None:
@@ -382,6 +385,9 @@ class portfolio_spec:
     """
         import numpy as np
         import pandas as pd
+        import math as math
+        import random
+
 
 
 
@@ -503,6 +509,9 @@ def add_constraint(portfolio, kind, enabled = True, **kwargs):
     import numpy as np
     import pandas as pd
 
+    import math as math
+    import random
+
 
 
 
@@ -599,6 +608,9 @@ def box_constraint(assets, minimum, maximum, kind = 'box', enabled = True, messa
     import numpy as np
     import pandas as pd
 
+    import math as math
+    import random
+
 
 
     
@@ -675,6 +687,9 @@ def group_constraint(assets, groups, group_min, group_max, kind = 'group', enabl
 """
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -767,6 +782,9 @@ def weight_sum_constraint(assets, kind = 'weight_sum', min_sum = 0.99, max_sum =
 """
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -884,6 +902,9 @@ def diversification_constraint(assets, div_target, kind = 'diversification', ena
     import numpy as np
     import random
     import pandas as pd
+    import math as math
+    import random
+
 
 
     
@@ -949,6 +970,7 @@ def position_limit_constraint(assets,  max_pos = None,kind = 'position', max_pos
     import numpy as np
     import random
     import pandas as pd
+    import math as math
 
 
     
@@ -1097,6 +1119,9 @@ def factor_exposure_constraint(assets, B, lower, upper, kind = 'factor_exposure'
 
     import numpy as np
     import pandas as pd
+
+    import math as math
+    import random
 
 
 
@@ -1371,6 +1396,9 @@ def add_objective(portfolio, kind, name, arguments = None, constraints = None, e
     import numpy as np
     import pandas as pd
 
+    import math as math
+    import random
+
 
 
     
@@ -1475,6 +1503,9 @@ def return_objective(name, target, arguments, multiplier = -1, enabled = True):
 """
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -1549,6 +1580,9 @@ def portfolio_risk_objective(name, target, arguments, multiplier = -1, enabled =
 """
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -1626,6 +1660,9 @@ def risk_budget_objective(assets, name, min_prisk = None, max_prisk = None, targ
 """
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -1788,6 +1825,9 @@ def minmax_objective(name, minimum, maximum, multiplier = 1, arguments = None, t
     import numpy as np
     import pandas as pd
 
+    import math as math
+    import random
+
 
 
 
@@ -1864,6 +1904,9 @@ def weight_concentration_objective(name, conc_aversion, conc_groups = None, mult
 """
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -1997,6 +2040,9 @@ def turnover(weights, wgt_init = None):
 """
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -2063,6 +2109,9 @@ def var_portfolio(R, weights):
     import numpy as np
     import pandas as pd
 
+    import math as math
+    import random
+
 
 
 
@@ -2109,6 +2158,9 @@ def HHI(weights, groups = None):
 """
     import numpy as np
     import pandas as pd
+
+    import math as math
+    import random
 
 
 
@@ -2169,6 +2221,9 @@ def port_mean(weights, mu):
 """
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -2208,6 +2263,9 @@ def VaR(R, p = 0.05):
 """
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -2258,6 +2316,9 @@ def VaR_portfolio(w,R,p = 0.05, mean = True):
 """
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -2312,6 +2373,9 @@ def cVaR_portfolio(w,R,p = 0.05, mean = True):
 
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -2357,6 +2421,9 @@ def group_fail(weights, groups = None, cLO = None, cUP = None, group_pos = None)
 
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -2400,6 +2467,9 @@ def normalize_weights(weights):
 
     import numpy as np
     import pandas as pd
+
+    import math as math
+    import random
 
 
 
@@ -2446,6 +2516,9 @@ def generate_sequence(minimum = 0.01, maximum = 1.01, by = 0.01/1, rounding = 3)
     import numpy as np
     import pandas as pd
 
+    import math as math
+    import random
+
 
 
     ret = np.arange(start = round(minimum, rounding), stop = round(maximum, rounding), step = by)
@@ -2480,6 +2553,9 @@ def pos_limit_fail(weights, max_pos = None, max_pos_long= None, max_pos_short = 
 """
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -2530,6 +2606,9 @@ def leverage_fail(weights, leverage = None):
     import numpy as np
     import pandas as pd
 
+    import math as math
+    import random
+
 
 
     if leverage == None:
@@ -2568,6 +2647,9 @@ def max_sum_fail(weights, max_sum = None):
 
     import numpy as np
     import pandas as pd
+
+    import math as math
+    import random
 
 
 
@@ -2608,6 +2690,9 @@ def min_sum_fail(weights, min_sum = None):
 
     import numpy as np
     import pandas as pd
+
+    import math as math
+    import random
 
 
 
@@ -2654,6 +2739,9 @@ def rp_decrease(weights, max_sum, min_box, weight_seq):
 """
     import numpy as np
     import pandas as pd
+
+    import math as math
+    import random
 
 
 
@@ -2715,6 +2803,9 @@ def rp_decrease_leverage(weights, max_box, min_box, leverage, weight_seq):
 
     import numpy as np
     import pandas as pd
+
+    import math as math
+    import random
 
 
 
@@ -2778,6 +2869,9 @@ def rp_increase(weights, min_sum, max_box, weight_seq):
 
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -2844,6 +2938,9 @@ def rp_position_limit(weights,min_box, max_box, weight_seq, max_pos = None, max_
 
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -2942,6 +3039,9 @@ def rp_transform(w, min_sum, max_sum, min_box, max_box, groups = None,
 """
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -3038,6 +3138,9 @@ def fn_map(weights, portfolio, relax = False, verbose = False):
 
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -3336,6 +3439,9 @@ def extract_weights(portfolio):
     import numpy as np
     import pandas as pd
 
+    import math as math
+    import random
+
 
 
 
@@ -3382,6 +3488,9 @@ def extract_objective_measure(R, portfolio, **kwargs):
 
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -3427,6 +3536,9 @@ def extract_groups(portfolio):
 
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -3501,6 +3613,9 @@ def constrained_objective(w, R, portfolio, trace = False,
 """    
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
 
 
 
@@ -3877,6 +3992,10 @@ def chart_weights(portfolio):
     """
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
+
 
 
 
@@ -3937,6 +4056,10 @@ def chart_group_weights(portfolio):
     import matplotlib.pyplot as plt
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
+
 
 
 
@@ -4012,6 +4135,10 @@ def chart_efficient_frontier(portfolio, R, metric = 'Sharpe Ratio', arguments = 
     import matplotlib.pyplot as plt
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
+
+
 
 
 
@@ -4226,6 +4353,8 @@ def optimize_portfolio(R, portfolio = None, constraints = None, objectives = Non
     """
     import numpy as np
     import pandas as pd
+    import math as math
+    import random
 
 
 
@@ -4918,6 +5047,9 @@ def equal_weight(R, portfoio, **kwargs):
     import numpy as np
     import pandas as pd
 
+    import math as math
+    import random
+
 
 
 
@@ -4964,7 +5096,8 @@ def inverse_volatility_weights(R, portfoio, **kwargs):
     """
     import numpy as np
     import pandas as pd
-
+    import math as math
+    import random
 
 
 
