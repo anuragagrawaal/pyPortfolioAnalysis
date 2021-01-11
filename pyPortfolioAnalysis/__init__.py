@@ -5,7 +5,7 @@ pyPortfolioAnalysis: Methods to optimize portfolio
 
 Documentation is available as docstring or as HTML on https://github.com/anuragagrawaal/pyPortfolioAnalysis
 
-Fucntions and Classes 
+Functions and Classes 
 
 
 
