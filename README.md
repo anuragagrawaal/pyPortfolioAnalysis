@@ -50,7 +50,7 @@ Please make sure to update tests as appropriate.
 ## Authors
 Anurag Agrawal
 
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](paypal.me/anuragagrawal1)
+[paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](paypal.me/anuragagrawal1)
 
 ## License
 [GPL3](https://choosealicense.com/licenses/gpl-3.0/)
