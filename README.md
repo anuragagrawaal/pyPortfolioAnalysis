@@ -70,3 +70,4 @@ Scherer, Bernd and Martin, Doug, Modern Portfolio Optimization. Springer. 2005.
 
 Shaw, William Thornton, Portfolio Optimization for VAR, CVaR, Omega and Utility with General Return Distributions: A Monte Carlo Approach for Long-Only and Bounded Short Portfolios with Optional Robustness and a Simplified Approach to Covariance Matching (June 1, 2011). Available at SSRN: http://ssrn.com/abstract=1856476 or http://dx.doi.org/10.2139/ssrn.1856476
 
+[![Downloads](https://pepy.tech/badge/pyportfolioanalysis)](https://pepy.tech/project/pyportfolioanalysis)
