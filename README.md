@@ -6,7 +6,7 @@ pyPortfolioAnalysis is a Python library for numeric method for portfolio optimis
 
 Use the package manager [pip](https://pip.pypa.io/en/stable/) to install [pyPortfolioAnalysis](https://pypi.org/project/pyPortfolioAnalysis/).
 
-Documentation is available as docstring, HTML on [html_doc](https://pyportfolioanalysis.readthedocs.io/en/latest/index.html) or [text_doc](https://github.com/anuragagrawaal/pyPortfolioAnalysis/blob/main/docs/doc_pyPortfolioAnalysis.txt)
+Documentation is available as docstring, [HTML](https://pyportfolioanalysis.readthedocs.io/en/latest/index.html) or [Text](https://github.com/anuragagrawaal/pyPortfolioAnalysis/blob/main/docs/doc_pyPortfolioAnalysis.txt)
 
 
 
